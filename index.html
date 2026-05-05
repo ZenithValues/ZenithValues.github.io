@@ -5,7 +5,7 @@
   <title>Ball Tower Defense</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Pixel font -->
+  <!-- Pixel Font -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
   <style>
@@ -17,8 +17,8 @@
     }
 
     body {
-      background: #0f0f0f;
-      color: white;
+      background: #050505; /* preto mais profundo */
+      color: #ffffff;
       text-align: center;
     }
 
@@ -26,8 +26,9 @@
       padding: 25px;
       font-size: 12px;
       letter-spacing: 3px;
-      color: #00ffcc;
-      border-bottom: 2px solid #00ffcc;
+      color: #ffffff;
+      border-bottom: 1px solid #222;
+      text-shadow: 0 0 6px rgba(255,255,255,0.3);
     }
 
     .hero {
@@ -38,6 +39,7 @@
       font-size: 22px;
       margin-bottom: 20px;
       letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(255,255,255,0.25);
     }
 
     p {
@@ -47,17 +49,17 @@
       margin-bottom: 40px;
     }
 
-    /* BOTÃO CYBER PIXEL */
+    /* BOTÃO */
     .btn {
       display: inline-block;
-      background: #00ffcc;
+      background: #ffffff;
       color: black;
       padding: 14px 35px;
       text-decoration: none;
 
       transform: skew(-10deg);
 
-      box-shadow: 5px 5px 0px #008f7a;
+      box-shadow: 5px 5px 0px #333;
       transition: 0.2s;
     }
 
@@ -69,7 +71,20 @@
 
     .btn:hover {
       transform: skew(-10deg) translate(3px, 3px);
-      box-shadow: 2px 2px 0px #008f7a;
+      box-shadow: 2px 2px 0px #333;
+      filter: brightness(1.2);
+    }
+
+    /* GRID FUNDO CYBER */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(#111 1px, transparent 1px),
+                        linear-gradient(90deg, #111 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.2;
+      z-index: -1;
     }
 
     /* FEATURES */
@@ -82,28 +97,35 @@
       padding: 20px;
     }
 
-    /* CARD CYBER PIXEL */
+    /* CARD */
     .card {
       width: 260px;
       padding: 20px;
-      background: #1a1a1a;
+      background: #0d0d0d;
 
       transform: skew(-5deg);
 
-      border: 2px solid #00ffcc;
+      border: 1px solid #333;
 
-      box-shadow: 6px 6px 0px #008f7a;
+      box-shadow: 6px 6px 0px #222;
+      transition: 0.2s;
     }
 
     .card * {
       transform: skew(5deg);
     }
 
+    .card:hover {
+      transform: skew(-5deg) translateY(-5px);
+      box-shadow: 10px 10px 0px #222;
+    }
+
     .card h3 {
       font-size: 10px;
       margin-bottom: 10px;
-      color: #00ffcc;
+      color: #ffffff;
       letter-spacing: 1px;
+      text-shadow: 0 0 6px rgba(255,255,255,0.2);
     }
 
     .card p {
@@ -115,7 +137,7 @@
       margin-top: 100px;
       padding: 20px;
       font-size: 9px;
-      color: #666;
+      color: #555;
     }
   </style>
 </head>
