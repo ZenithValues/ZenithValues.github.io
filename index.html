@@ -15,16 +15,13 @@
       font-family: 'Press Start 2P', cursive;
     }
 
-    /* ===================== */
-    /* DEFAULT (PRETO/BRANCO) */
-    /* ===================== */
     body {
       background: #050505;
       color: #ffffff;
       overflow-x: hidden;
     }
 
-    /* GRID VISÍVEL */
+    /* GRID */
     body::before {
       content: "";
       position: fixed;
@@ -33,16 +30,20 @@
         linear-gradient(#222 1px, transparent 1px),
         linear-gradient(90deg, #222 1px, transparent 1px);
       background-size: 40px 40px;
-      opacity: 0.4;
+      opacity: 0.35;
       z-index: -3;
     }
 
+    /* HEADER (FIXED LOOK) */
     header {
       display: flex;
       align-items: center;
       gap: 20px;
       padding: 20px;
       border-bottom: 1px solid #333;
+      background: #050505; /* NÃO transparente */
+      position: relative;
+      z-index: 10;
     }
 
     .menu-btn {
@@ -65,6 +66,7 @@
       display: none;
       flex-direction: column;
       gap: 10px;
+      z-index: 20;
     }
 
     .dropdown.active {
@@ -158,8 +160,9 @@
     }
 
     /* ===================== */
-    /* GRIM FIRE THEME */
+    /* GRIM FIRE */
     /* ===================== */
+
     body.grim {
       background: #001100;
       color: #aaffaa;
@@ -167,55 +170,33 @@
 
     body.grim header {
       border-bottom: 1px solid #00ff00;
-      text-shadow: 0 0 10px #00ff00;
+      background: #001100;
+    }
+
+    body.grim .card {
+      background: #000a00; /* MAIS ESCURO */
+      border: 1px solid #00ff00;
+      box-shadow: 0 0 10px #00ff00;
     }
 
     body.grim .btn {
       background: #00ff00;
-      color: black;
-      box-shadow: 0 0 15px #00ff00;
-    }
-
-    body.grim .card {
-      border: 1px solid #00ff00;
       box-shadow: 0 0 12px #00ff00;
-      background: #002200;
     }
 
     body.grim h1 {
-      text-shadow: 0 0 15px #00ff00;
+      text-shadow: 0 0 10px #00ff00;
     }
 
-    /* 🔥 BASE DO FOGO */
-    .fire-base {
+    /* 🔥 PARTICULAS */
+    .particles {
       position: fixed;
       bottom: 0;
       width: 100%;
-      height: 40px;
-      background: repeating-linear-gradient(
-        0deg,
-        #00ff00,
-        #00ff00 4px,
-        #007700 4px,
-        #007700 8px
-      );
-      opacity: 0.5;
-      z-index: -2;
-      display: none;
-    }
-
-    body.grim .fire-base {
-      display: block;
-    }
-
-    /* 🔥 PARTÍCULAS */
-    .fire-container {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      height: 120px;
+      height: 80px;
       pointer-events: none;
-      z-index: -1;
+      overflow: hidden;
+      z-index: 0;
     }
 
     .pixel {
@@ -223,14 +204,22 @@
       width: 6px;
       height: 6px;
       background: #00ff00;
-      box-shadow: 0 0 10px #00ff00;
-      animation: rise linear infinite;
+      box-shadow: 0 0 12px #00ff00;
+      opacity: 0.8;
+      animation: floatUp linear infinite;
     }
 
-    @keyframes rise {
-      from { transform: translateY(0); opacity: 1; }
-      to { transform: translateY(-120px); opacity: 0; }
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-60px); /* sobe pouco */
+        opacity: 0;
+      }
     }
+
   </style>
 </head>
 
@@ -246,8 +235,7 @@
   <button onclick="setTheme('grim')">Grim Fire</button>
 </div>
 
-<div class="fire-base"></div>
-<div class="fire-container" id="fire"></div>
+<div class="particles" id="particles"></div>
 
 <section class="hero">
   <h1>Ball Tower Defense</h1>
@@ -280,20 +268,20 @@
   }
 
   function setTheme(theme) {
-    const fire = document.getElementById("fire");
-    fire.innerHTML = "";
+    const particles = document.getElementById("particles");
+    particles.innerHTML = "";
 
     document.body.classList.remove("grim");
 
     if (theme === "grim") {
       document.body.classList.add("grim");
 
-      for (let i = 0; i < 80; i++) {
+      for (let i = 0; i < 40; i++) {
         let p = document.createElement("div");
         p.className = "pixel";
         p.style.left = Math.random() * 100 + "%";
-        p.style.animationDuration = (0.8 + Math.random()) + "s";
-        fire.appendChild(p);
+        p.style.animationDuration = (2 + Math.random() * 2) + "s"; // MAIS LENTO
+        particles.appendChild(p);
       }
     }
   }
