@@ -17,7 +17,7 @@
 
     body {
       background: #050505;
-      color: #ffffff;
+      color: white;
       overflow-x: hidden;
     }
 
@@ -34,14 +34,13 @@
       z-index: -3;
     }
 
-    /* HEADER (FIXED LOOK) */
     header {
       display: flex;
       align-items: center;
       gap: 20px;
       padding: 20px;
       border-bottom: 1px solid #333;
-      background: #050505; /* NÃO transparente */
+      background: #050505;
       position: relative;
       z-index: 10;
     }
@@ -116,7 +115,6 @@
     .btn span {
       display: inline-block;
       transform: skew(10deg);
-      font-size: 11px;
     }
 
     .features {
@@ -141,16 +139,6 @@
       transform: skew(5deg);
     }
 
-    .card h3 {
-      font-size: 10px;
-      margin-bottom: 10px;
-    }
-
-    .card p {
-      font-size: 9px;
-      color: #bbb;
-    }
-
     footer {
       margin-top: 100px;
       padding: 20px;
@@ -160,7 +148,7 @@
     }
 
     /* ===================== */
-    /* GRIM FIRE */
+    /* GRIM THEME */
     /* ===================== */
 
     body.grim {
@@ -169,12 +157,12 @@
     }
 
     body.grim header {
-      border-bottom: 1px solid #00ff00;
       background: #001100;
+      border-bottom: 1px solid #00ff00;
     }
 
     body.grim .card {
-      background: #000a00; /* MAIS ESCURO */
+      background: #000a00;
       border: 1px solid #00ff00;
       box-shadow: 0 0 10px #00ff00;
     }
@@ -188,34 +176,36 @@
       text-shadow: 0 0 10px #00ff00;
     }
 
-    /* 🔥 PARTICULAS */
+    /* 🔥 PARTICULAS VISÍVEIS */
     .particles {
       position: fixed;
       bottom: 0;
       width: 100%;
-      height: 80px;
+      height: 100px;
       pointer-events: none;
       overflow: hidden;
-      z-index: 0;
+      z-index: 1;
     }
 
     .pixel {
       position: absolute;
-      width: 6px;
-      height: 6px;
       background: #00ff00;
-      box-shadow: 0 0 12px #00ff00;
-      opacity: 0.8;
+      border-radius: 2px;
+      opacity: 0.9;
+      box-shadow:
+        0 0 6px #00ff00,
+        0 0 12px #00ff00,
+        0 0 20px #00ff00;
       animation: floatUp linear infinite;
     }
 
     @keyframes floatUp {
       0% {
         transform: translateY(0);
-        opacity: 0.8;
+        opacity: 1;
       }
       100% {
-        transform: translateY(-60px); /* sobe pouco */
+        transform: translateY(-80px);
         opacity: 0;
       }
     }
@@ -276,11 +266,17 @@
     if (theme === "grim") {
       document.body.classList.add("grim");
 
-      for (let i = 0; i < 40; i++) {
+      for (let i = 0; i < 80; i++) {
         let p = document.createElement("div");
         p.className = "pixel";
+
+        let size = 4 + Math.random() * 6; // TAMANHO VARIADO
+        p.style.width = size + "px";
+        p.style.height = size + "px";
+
         p.style.left = Math.random() * 100 + "%";
-        p.style.animationDuration = (2 + Math.random() * 2) + "s"; // MAIS LENTO
+        p.style.animationDuration = (2 + Math.random() * 3) + "s";
+
         particles.appendChild(p);
       }
     }
