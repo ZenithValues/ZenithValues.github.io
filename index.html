@@ -5,8 +5,7 @@
   <title>Ball Tower Defense</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Montserrat (texto) + Pixel font -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <!-- Pixel font -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
   <style>
@@ -14,19 +13,19 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: 'Press Start 2P', cursive;
     }
 
     body {
       background: #0f0f0f;
       color: white;
       text-align: center;
-      font-family: 'Montserrat', sans-serif;
     }
 
     header {
-      padding: 20px;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 14px;
+      padding: 25px;
+      font-size: 12px;
+      letter-spacing: 3px;
       color: #00ffcc;
       border-bottom: 2px solid #00ffcc;
     }
@@ -35,13 +34,15 @@
       padding: 100px 20px;
     }
 
-    .hero h1 {
-      font-family: 'Press Start 2P', cursive;
-      font-size: 28px;
+    h1 {
+      font-size: 22px;
       margin-bottom: 20px;
+      letter-spacing: 2px;
     }
 
-    .hero p {
+    p {
+      font-size: 10px;
+      line-height: 1.6;
       color: #aaa;
       margin-bottom: 40px;
     }
@@ -49,24 +50,21 @@
     /* BOTÃO CYBER PIXEL */
     .btn {
       display: inline-block;
-      padding: 15px 40px;
-      color: black;
       background: #00ffcc;
+      color: black;
+      padding: 14px 35px;
       text-decoration: none;
-      font-weight: 700;
 
-      /* shape cyber */
       transform: skew(-10deg);
 
-      /* sombra pixel */
       box-shadow: 5px 5px 0px #008f7a;
-
       transition: 0.2s;
     }
 
     .btn span {
       display: inline-block;
       transform: skew(10deg);
+      font-size: 11px;
     }
 
     .btn:hover {
@@ -74,12 +72,13 @@
       box-shadow: 2px 2px 0px #008f7a;
     }
 
+    /* FEATURES */
     .features {
       margin-top: 80px;
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 30px;
+      gap: 25px;
       padding: 20px;
     }
 
@@ -89,12 +88,10 @@
       padding: 20px;
       background: #1a1a1a;
 
-      /* forma cyber */
       transform: skew(-5deg);
 
       border: 2px solid #00ffcc;
 
-      /* sombra pixel */
       box-shadow: 6px 6px 0px #008f7a;
     }
 
@@ -103,17 +100,22 @@
     }
 
     .card h3 {
+      font-size: 10px;
       margin-bottom: 10px;
       color: #00ffcc;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    .card p {
+      font-size: 9px;
+      color: #bbb;
     }
 
     footer {
       margin-top: 100px;
       padding: 20px;
+      font-size: 9px;
       color: #666;
-      font-size: 12px;
     }
   </style>
 </head>
