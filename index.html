@@ -17,16 +17,27 @@
     }
 
     body {
-      background: #050505; /* preto mais profundo */
+      background: #050505;
       color: #ffffff;
       text-align: center;
+    }
+
+    /* GRID CYBER */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(#111 1px, transparent 1px),
+                        linear-gradient(90deg, #111 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.2;
+      z-index: -1;
     }
 
     header {
       padding: 25px;
       font-size: 12px;
       letter-spacing: 3px;
-      color: #ffffff;
       border-bottom: 1px solid #222;
       text-shadow: 0 0 6px rgba(255,255,255,0.3);
     }
@@ -56,9 +67,7 @@
       color: black;
       padding: 14px 35px;
       text-decoration: none;
-
       transform: skew(-10deg);
-
       box-shadow: 5px 5px 0px #333;
       transition: 0.2s;
     }
@@ -75,19 +84,7 @@
       filter: brightness(1.2);
     }
 
-    /* GRID FUNDO CYBER */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background-image: linear-gradient(#111 1px, transparent 1px),
-                        linear-gradient(90deg, #111 1px, transparent 1px);
-      background-size: 40px 40px;
-      opacity: 0.2;
-      z-index: -1;
-    }
-
-    /* FEATURES */
+    /* CARDS */
     .features {
       margin-top: 80px;
       display: flex;
@@ -97,16 +94,12 @@
       padding: 20px;
     }
 
-    /* CARD */
     .card {
       width: 260px;
       padding: 20px;
       background: #0d0d0d;
-
       transform: skew(-5deg);
-
       border: 1px solid #333;
-
       box-shadow: 6px 6px 0px #222;
       transition: 0.2s;
     }
@@ -123,9 +116,7 @@
     .card h3 {
       font-size: 10px;
       margin-bottom: 10px;
-      color: #ffffff;
       letter-spacing: 1px;
-      text-shadow: 0 0 6px rgba(255,255,255,0.2);
     }
 
     .card p {
@@ -139,6 +130,47 @@
       font-size: 9px;
       color: #555;
     }
+
+    /* GLITCH */
+    .glitch {
+      position: relative;
+      display: inline-block;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .glitch::before {
+      color: red;
+      transform: translate(2px, 0);
+      opacity: 0.7;
+    }
+
+    .glitch::after {
+      color: blue;
+      transform: translate(-2px, 0);
+      opacity: 0.7;
+    }
+
+    @keyframes glitchAnim {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(-2px, -2px); }
+      60% { transform: translate(2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+      100% { transform: translate(0); }
+    }
+
+    .glitch-active {
+      animation: glitchAnim 0.2s infinite;
+    }
+
   </style>
 </head>
 
@@ -147,10 +179,12 @@
 <header>ZENITH VALUES</header>
 
 <section class="hero">
-  <h1>Ball Tower Defense</h1>
+  <h1 class="glitch" data-text="Ball Tower Defense">Ball Tower Defense</h1>
   <p>Retro roots. Cyber strategy. Pure defense action.</p>
 
-  <a class="btn" href="#"><span>PLAY NOW</span></a>
+  <a class="btn glitch" data-text="PLAY NOW" href="#">
+    <span>PLAY NOW</span>
+  </a>
 </section>
 
 <section class="features">
@@ -173,6 +207,24 @@
 <footer>
   © 2026 Zenith Values
 </footer>
+
+<script>
+  const title = document.querySelector("h1");
+  title.addEventListener("mouseenter", () => {
+    title.classList.add("glitch-active");
+    setTimeout(() => {
+      title.classList.remove("glitch-active");
+    }, 300);
+  });
+
+  const btn = document.querySelector(".btn");
+  btn.addEventListener("click", () => {
+    btn.classList.add("glitch-active");
+    setTimeout(() => {
+      btn.classList.remove("glitch-active");
+    }, 300);
+  });
+</script>
 
 </body>
 </html>
