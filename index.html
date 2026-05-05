@@ -1,51 +1,74 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en-US">
 <head>
   <meta charset="UTF-8">
   <title>Zenith Values</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
+  <!-- Montserrat Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f0f0f;
-      color: white;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, #0a0a0a 0%, #111 100%);
+      color: #fff;
       text-align: center;
     }
 
     header {
-      padding: 40px;
-      font-size: 32px;
-      font-weight: bold;
+      padding: 30px;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: #aaa;
     }
 
     .hero {
-      padding: 80px 20px;
+      padding: 120px 20px;
+      max-width: 900px;
+      margin: auto;
     }
 
     .hero h1 {
-      font-size: 42px;
+      font-size: 52px;
+      font-weight: 700;
+      line-height: 1.2;
       margin-bottom: 20px;
     }
 
     .hero p {
+      font-size: 18px;
       color: #aaa;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
     }
 
     .btn {
-      background: #00ffcc;
+      background: linear-gradient(135deg, #00ffcc, #00ccaa);
       color: black;
-      padding: 12px 25px;
-      border-radius: 25px;
+      padding: 14px 35px;
+      border-radius: 40px;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 600;
+      transition: 0.3s;
+      box-shadow: 0 0 20px rgba(0,255,200,0.3);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 30px rgba(0,255,200,0.6);
     }
 
     footer {
-      margin-top: 100px;
+      margin-top: 120px;
       padding: 20px;
+      font-size: 14px;
       color: #666;
     }
   </style>
@@ -53,12 +76,12 @@
 
 <body>
 
-<header>Zenith Values</header>
+<header>ZENITH VALUES</header>
 
 <section class="hero">
-  <h1>Ferramentas inteligentes para seu crescimento</h1>
-  <p>Simuladores, calculadoras e recursos para evoluir nos estudos e na vida.</p>
-  <a class="btn" href="#">Começar</a>
+  <h1>Smart tools<br>for your growth</h1>
+  <p>Simulators, calculators, and resources to improve your studies and life.</p>
+  <a class="btn" href="#">Get Started</a>
 </section>
 
 <footer>
