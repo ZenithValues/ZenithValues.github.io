@@ -36,13 +36,13 @@
             z-index: 1;
         }
 
-        /* Fire container */
+        /* Fire container - positioned above footer */
         .fire-container {
             position: fixed;
-            bottom: 0;
+            bottom: 40px;
             left: 0;
             width: 100%;
-            height: 150px;
+            height: 80px;
             pointer-events: none;
             z-index: 50;
             display: none;
@@ -53,39 +53,12 @@
             display: block;
         }
 
-        /* Fire base gradient */
-        .fire-base {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top,
-                rgba(0, 255, 0, 1) 0%,
-                rgba(0, 255, 0, 0.8) 15%,
-                rgba(0, 200, 0, 0.6) 30%,
-                rgba(0, 150, 0, 0.3) 50%,
-                rgba(0, 100, 0, 0.1) 75%,
-                transparent 100%);
-            pointer-events: none;
-        }
-
-        /* Individual fire blocks */
-        .fire-pixel {
-            position: absolute;
-            background-color: #00FF00;
-            box-shadow: 0 0 12px #00FF00, 0 0 24px #00AA00, 0 0 36px rgba(0, 255, 0, 0.8);
-            border: 2px solid #00FF00;
-            bottom: 0;
-        }
-
         /* Fire particles */
         .fire-particle {
             position: absolute;
             background-color: #00FF00;
             box-shadow: 0 0 10px #00FF00, 0 0 20px #00AA00, 0 0 30px rgba(0, 255, 0, 0.6);
             border-radius: 50%;
-            bottom: 0;
         }
 
         /* Content wrapper */
@@ -428,52 +401,41 @@
         function createFireEffect() {
             removeFireEffect();
 
-            // Create fire base gradient
-            const fireBase = document.createElement('div');
-            fireBase.className = 'fire-base';
-            fireContainer.appendChild(fireBase);
-
-            // Create pixelated fire blocks - MANY and BRIGHT
-            const fireBlockCount = 80;
-            for (let i = 0; i < fireBlockCount; i++) {
-                const block = document.createElement('div');
-                block.className = 'fire-pixel';
-                
-                const size = 6 + Math.random() * 12;
-                const startX = Math.random() * window.innerWidth;
-                const startY = window.innerHeight - 20 - Math.random() * 40;
-                const duration = 1 + Math.random() * 0.8;
-                const delay = Math.random() * 0.2;
-                
-                block.style.width = size + 'px';
-                block.style.height = size + 'px';
-                block.style.left = startX + 'px';
-                block.style.bottom = (window.innerHeight - startY) + 'px';
-                block.style.animation = `fireFlicker ${duration}s ease-in-out ${delay}s infinite`;
-
-                fireContainer.appendChild(block);
-            }
-
-            // Create fire particles - MORE and BRIGHTER
-            const particleCount = 300;
+            // Create continuous fire particles with fade
+            const particleCount = 250;
             for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'fire-particle';
-                
-                const size = 2 + Math.random() * 4;
-                const startX = Math.random() * window.innerWidth;
-                const startY = window.innerHeight - Math.random() * 60;
-                const duration = 1.2 + Math.random() * 1;
-                const delay = Math.random() * 0.3;
-
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.left = startX + 'px';
-                particle.style.bottom = (window.innerHeight - startY) + 'px';
-                particle.style.animation = `fireRise ${duration}s ease-out ${delay}s forwards`;
-
-                fireContainer.appendChild(particle);
+                createFireParticle();
             }
+
+            // Continuously spawn new particles
+            setInterval(() => {
+                if (body.classList.contains('grim-fire') && fireContainer.classList.contains('active')) {
+                    createFireParticle();
+                }
+            }, 50);
+        }
+
+        function createFireParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'fire-particle';
+            
+            const size = 2 + Math.random() * 3;
+            const startX = Math.random() * window.innerWidth;
+            const duration = 1.5 + Math.random() * 0.8;
+            const delay = 0;
+
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = startX + 'px';
+            particle.style.bottom = '0px';
+            particle.style.animation = `fireRise ${duration}s ease-out ${delay}s forwards`;
+
+            fireContainer.appendChild(particle);
+
+            // Remove particle after animation
+            setTimeout(() => {
+                particle.remove();
+            }, (duration + delay) * 1000);
         }
 
         function removeFireEffect() {
@@ -485,36 +447,17 @@
         // Add animations
         const styleSheet = document.createElement('style');
         styleSheet.textContent = `
-            @keyframes fireFlicker {
-                0%, 100% {
-                    opacity: 0.6;
-                    transform: translateY(0) scaleY(0.9) scaleX(0.85);
-                }
-                25% {
-                    opacity: 1;
-                    transform: translateY(-8px) scaleY(1.1) scaleX(1);
-                }
-                50% {
-                    opacity: 1;
-                    transform: translateY(-4px) scaleY(1) scaleX(0.95);
-                }
-                75% {
-                    opacity: 1;
-                    transform: translateY(-10px) scaleY(1.15) scaleX(1.05);
-                }
-            }
-
             @keyframes fireRise {
                 0% {
                     opacity: 1;
                     transform: translateY(0) translateX(0) scale(1);
                 }
-                40% {
-                    opacity: 1;
+                50% {
+                    opacity: 0.8;
                 }
                 100% {
                     opacity: 0;
-                    transform: translateY(-100px) translateX(${Math.random() > 0.5 ? '' : '-'}${Math.random() * 40}px) scale(0);
+                    transform: translateY(-80px) translateX(${Math.random() > 0.5 ? '' : '-'}${Math.random() * 30}px) scale(0.3);
                 }
             }
         `;
