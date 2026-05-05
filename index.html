@@ -22,7 +22,7 @@
       text-align: center;
     }
 
-    /* GRID */
+    /* GRID FUNDO */
     body::before {
       content: "";
       position: fixed;
@@ -39,6 +39,7 @@
       font-size: 12px;
       letter-spacing: 3px;
       border-bottom: 1px solid #222;
+      text-shadow: 0 0 6px rgba(255,255,255,0.2);
     }
 
     .hero {
@@ -49,10 +50,12 @@
       font-size: 22px;
       margin-bottom: 20px;
       letter-spacing: 2px;
+      text-shadow: 0 0 8px rgba(255,255,255,0.2);
     }
 
     p {
       font-size: 10px;
+      line-height: 1.6;
       color: #aaa;
       margin-bottom: 40px;
     }
@@ -78,6 +81,7 @@
     .btn:hover {
       transform: skew(-10deg) translate(3px, 3px);
       box-shadow: 2px 2px 0px #333;
+      filter: brightness(1.1);
     }
 
     /* CARDS */
@@ -112,6 +116,8 @@
     .card h3 {
       font-size: 10px;
       margin-bottom: 10px;
+      letter-spacing: 1px;
+      text-shadow: 0 0 4px rgba(255,255,255,0.15);
     }
 
     .card p {
@@ -125,45 +131,6 @@
       font-size: 9px;
       color: #555;
     }
-
-    /* GLITCH FIXADO */
-    .glitch {
-      position: relative;
-    }
-
-    .glitch::before,
-    .glitch::after {
-      content: attr(data-text);
-      position: absolute;
-      left: 0;
-      width: 100%;
-      opacity: 0; /* invisível por padrão */
-    }
-
-    .glitch-active::before {
-      color: red;
-      opacity: 0.8;
-      animation: glitch1 0.2s;
-    }
-
-    .glitch-active::after {
-      color: blue;
-      opacity: 0.8;
-      animation: glitch2 0.2s;
-    }
-
-    @keyframes glitch1 {
-      0% { transform: translate(0); }
-      50% { transform: translate(2px, -2px); }
-      100% { transform: translate(0); }
-    }
-
-    @keyframes glitch2 {
-      0% { transform: translate(0); }
-      50% { transform: translate(-2px, 2px); }
-      100% { transform: translate(0); }
-    }
-
   </style>
 </head>
 
@@ -172,12 +139,10 @@
 <header>ZENITH VALUES</header>
 
 <section class="hero">
-  <h1 class="glitch" data-text="Ball Tower Defense">Ball Tower Defense</h1>
+  <h1>Ball Tower Defense</h1>
   <p>Retro roots. Cyber strategy. Pure defense action.</p>
 
-  <a class="btn glitch" data-text="PLAY NOW" href="#">
-    <span>PLAY NOW</span>
-  </a>
+  <a class="btn" href="#"><span>PLAY NOW</span></a>
 </section>
 
 <section class="features">
@@ -200,21 +165,6 @@
 <footer>
   © 2026 Zenith Values
 </footer>
-
-<script>
-  const title = document.querySelector("h1");
-  const btn = document.querySelector(".btn");
-
-  function triggerGlitch(el) {
-    el.classList.add("glitch-active");
-    setTimeout(() => {
-      el.classList.remove("glitch-active");
-    }, 200);
-  }
-
-  title.addEventListener("mouseenter", () => triggerGlitch(title));
-  btn.addEventListener("click", () => triggerGlitch(btn));
-</script>
 
 </body>
 </html>
