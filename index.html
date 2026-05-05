@@ -5,7 +5,6 @@
   <title>Ball Tower Defense</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Pixel Font -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
   <style>
@@ -18,10 +17,11 @@
 
     body {
       background: #050505;
-      color: #ffffff;
+      color: white;
+      transition: 0.3s;
     }
 
-    /* GRID FUNDO */
+    /* GRID */
     body::before {
       content: "";
       position: fixed;
@@ -30,7 +30,7 @@
                         linear-gradient(90deg, #111 1px, transparent 1px);
       background-size: 40px 40px;
       opacity: 0.2;
-      z-index: -1;
+      z-index: -2;
     }
 
     /* HEADER */
@@ -42,20 +42,15 @@
       border-bottom: 1px solid #222;
     }
 
-    /* MENU ICON */
     .menu-btn {
-      font-size: 18px;
       cursor: pointer;
-      user-select: none;
     }
 
-    /* TITLE */
     .title {
       font-size: 12px;
-      letter-spacing: 2px;
     }
 
-    /* DROPDOWN MENU */
+    /* MENU */
     .dropdown {
       position: absolute;
       top: 70px;
@@ -67,23 +62,22 @@
       display: none;
       flex-direction: column;
       gap: 10px;
-      width: 200px;
     }
 
     .dropdown.active {
       display: flex;
     }
 
-    .dropdown a {
-      text-decoration: none;
-      color: white;
-      font-size: 10px;
-      padding: 8px;
+    .dropdown button {
+      background: none;
       border: 1px solid #333;
-      transition: 0.2s;
+      color: white;
+      padding: 8px;
+      cursor: pointer;
+      font-size: 10px;
     }
 
-    .dropdown a:hover {
+    .dropdown button:hover {
       background: white;
       color: black;
     }
@@ -105,27 +99,20 @@
       margin-bottom: 40px;
     }
 
-    /* BUTTON */
     .btn {
       display: inline-block;
-      background: #ffffff;
+      background: white;
       color: black;
       padding: 14px 35px;
       text-decoration: none;
       transform: skew(-10deg);
       box-shadow: 5px 5px 0px #333;
-      transition: 0.2s;
     }
 
     .btn span {
       display: inline-block;
       transform: skew(10deg);
       font-size: 11px;
-    }
-
-    .btn:hover {
-      transform: skew(-10deg) translate(3px, 3px);
-      box-shadow: 2px 2px 0px #333;
     }
 
     /* CARDS */
@@ -145,16 +132,10 @@
       transform: skew(-5deg);
       border: 1px solid #333;
       box-shadow: 6px 6px 0px #222;
-      transition: 0.2s;
     }
 
     .card * {
       transform: skew(5deg);
-    }
-
-    .card:hover {
-      transform: skew(-5deg) translateY(-5px);
-      box-shadow: 10px 10px 0px #222;
     }
 
     .card h3 {
@@ -167,13 +148,54 @@
       color: #bbb;
     }
 
-    footer {
-      margin-top: 100px;
-      padding: 20px;
-      font-size: 9px;
-      color: #555;
-      text-align: center;
+    /* ===================== */
+    /* 🔥 GRIM FIRE THEME */
+    /* ===================== */
+
+    .grim {
+      color: #9bff9b;
     }
+
+    .grim .btn {
+      background: #00ff66;
+      box-shadow: 5px 5px 0px #006633;
+    }
+
+    .grim .card {
+      border: 1px solid #00ff66;
+      box-shadow: 6px 6px 0px #003311;
+    }
+
+    .grim header {
+      border-bottom: 1px solid #00ff66;
+    }
+
+    /* PIXEL FIRE */
+    .fire {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      pointer-events: none;
+      z-index: -1;
+      background: repeating-linear-gradient(
+        0deg,
+        #00ff66,
+        #00ff66 4px,
+        transparent 4px,
+        transparent 8px
+      );
+      animation: fireAnim 0.4s infinite;
+      opacity: 0.2;
+    }
+
+    @keyframes fireAnim {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+      100% { transform: translateY(0); }
+    }
+
   </style>
 </head>
 
@@ -185,16 +207,15 @@
 </header>
 
 <div class="dropdown" id="menu">
-  <a href="#">Omega</a>
-  <a href="#">Transcendent</a>
-  <a href="#">Mythic</a>
-  <a href="#">Legendary</a>
+  <button onclick="setTheme('default')">Default</button>
+  <button onclick="setTheme('grim')">Grim Fire</button>
 </div>
+
+<div id="fire"></div>
 
 <section class="hero">
   <h1>Ball Tower Defense</h1>
   <p>Retro roots. Cyber strategy. Pure defense action.</p>
-
   <a class="btn" href="#"><span>PLAY NOW</span></a>
 </section>
 
@@ -203,26 +224,36 @@
     <h3>CLASSIC CORE</h3>
     <p>Inspired by old-school Roblox gameplay.</p>
   </div>
-
   <div class="card">
     <h3>SMART STRATEGY</h3>
     <p>Plan and upgrade your towers.</p>
   </div>
-
   <div class="card">
     <h3>ENDLESS WAVES</h3>
     <p>Enemies keep evolving.</p>
   </div>
 </section>
 
-<footer>
+<footer style="text-align:center; margin-top:100px; font-size:9px; color:#555;">
   © 2026 Zenith Values
 </footer>
 
 <script>
   function toggleMenu() {
-    const menu = document.getElementById("menu");
-    menu.classList.toggle("active");
+    document.getElementById("menu").classList.toggle("active");
+  }
+
+  function setTheme(theme) {
+    document.body.className = "";
+
+    const fire = document.getElementById("fire");
+
+    if (theme === "grim") {
+      document.body.classList.add("grim");
+      fire.classList.add("fire");
+    } else {
+      fire.classList.remove("fire");
+    }
   }
 </script>
 
