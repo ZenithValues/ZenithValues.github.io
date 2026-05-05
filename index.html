@@ -21,7 +21,7 @@
       overflow-x: hidden;
     }
 
-    /* GRID */
+    /* GRID (fundo mais baixo de todos) */
     body::before {
       content: "";
       position: fixed;
@@ -31,19 +31,19 @@
         linear-gradient(90deg, #222 1px, transparent 1px);
       background-size: 40px 40px;
       opacity: 0.35;
-      z-index: -2;
+      z-index: 0;
     }
 
     /* HEADER */
     header {
+      position: relative;
+      z-index: 10;
       display: flex;
       align-items: center;
       gap: 20px;
       padding: 20px;
       border-bottom: 1px solid #333;
       background: #050505;
-      position: relative;
-      z-index: 10;
     }
 
     .menu-btn {
@@ -87,7 +87,12 @@
       color: black;
     }
 
-    /* HERO */
+    /* CONTEÚDO ACIMA DAS PARTICULAS */
+    main {
+      position: relative;
+      z-index: 5;
+    }
+
     .hero {
       padding: 100px 20px;
       text-align: center;
@@ -120,7 +125,6 @@
       font-size: 11px;
     }
 
-    /* CARDS (NÃO ALTERADO) */
     .features {
       margin-top: 80px;
       display: flex;
@@ -143,26 +147,20 @@
       transform: skew(5deg);
     }
 
-    .card h3 {
-      font-size: 10px;
-      margin-bottom: 10px;
-    }
-
-    .card p {
-      font-size: 9px;
-      color: #bbb;
-    }
-
+    /* FOOTER NÃO BLOQUEIA MAIS */
     footer {
+      position: relative;
+      z-index: 5;
       margin-top: 100px;
       padding: 20px;
       font-size: 9px;
       color: #666;
       text-align: center;
+      background: transparent;
     }
 
     /* ===================== */
-    /* GRIM THEME */
+    /* GRIM */
     /* ===================== */
 
     body.grim {
@@ -190,16 +188,15 @@
       text-shadow: 0 0 10px #00ff00;
     }
 
-    /* 🔥 PARTICULAS (CORRIGIDO) */
+    /* 🔥 PARTICULAS (AGORA ENTRE FUNDO E CONTEÚDO) */
     .particles {
       position: fixed;
       bottom: 0;
-      left: 0;
       width: 100%;
       height: 80px;
       pointer-events: none;
       overflow: hidden;
-      z-index: 1;
+      z-index: 2; /* CHAVE */
     }
 
     .pixel {
@@ -217,14 +214,8 @@
     }
 
     @keyframes floatUp {
-      0% {
-        transform: translateY(0);
-        opacity: 0.9;
-      }
-      100% {
-        transform: translateY(-50px);
-        opacity: 0;
-      }
+      0% { transform: translateY(0); opacity: 0.9; }
+      100% { transform: translateY(-50px); opacity: 0; }
     }
 
   </style>
@@ -242,32 +233,35 @@
   <button onclick="setTheme('grim')">Grim Fire</button>
 </div>
 
+<!-- 🔥 PARTÍCULAS -->
 <div class="particles" id="particles"></div>
 
-<section class="hero">
-  <h1>Ball Tower Defense</h1>
-  <p>Retro roots. Cyber strategy. Pure defense action.</p>
-  <a class="btn" href="#"><span>PLAY NOW</span></a>
-</section>
+<main>
+  <section class="hero">
+    <h1>Ball Tower Defense</h1>
+    <p>Retro roots. Cyber strategy. Pure defense action.</p>
+    <a class="btn" href="#"><span>PLAY NOW</span></a>
+  </section>
 
-<section class="features">
-  <div class="card">
-    <h3>CLASSIC CORE</h3>
-    <p>Old-school Roblox gameplay.</p>
-  </div>
-  <div class="card">
-    <h3>SMART STRATEGY</h3>
-    <p>Upgrade and defend.</p>
-  </div>
-  <div class="card">
-    <h3>ENDLESS WAVES</h3>
-    <p>Enemies evolve.</p>
-  </div>
-</section>
+  <section class="features">
+    <div class="card">
+      <h3>CLASSIC CORE</h3>
+      <p>Old-school Roblox gameplay.</p>
+    </div>
+    <div class="card">
+      <h3>SMART STRATEGY</h3>
+      <p>Upgrade and defend.</p>
+    </div>
+    <div class="card">
+      <h3>ENDLESS WAVES</h3>
+      <p>Enemies evolve.</p>
+    </div>
+  </section>
 
-<footer>
-  © 2026 Zenith Values
-</footer>
+  <footer>
+    © 2026 Zenith Values
+  </footer>
+</main>
 
 <script>
   function toggleMenu() {
@@ -286,10 +280,8 @@
       for (let i = 0; i < 120; i++) {
         let p = document.createElement("div");
         p.className = "pixel";
-
         p.style.left = Math.random() * 100 + "%";
         p.style.animationDuration = (2 + Math.random() * 2) + "s";
-
         particles.appendChild(p);
       }
     }
