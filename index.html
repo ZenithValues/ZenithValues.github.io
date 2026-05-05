@@ -1,292 +1,448 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-  <meta charset="UTF-8">
-  <title>Ball Tower Defense</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ball Tower Defense - Zenith Values</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background-color: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Press Start 2P', cursive;
-    }
+        /* Grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.05) 75%, rgba(255, 255, 255, 0.05) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.05) 75%, rgba(255, 255, 255, 0.05) 76%, transparent 77%, transparent);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 1;
+        }
 
-    body {
-      background: #050505;
-      color: #ffffff;
-      overflow-x: hidden;
-    }
+        /* Particles container */
+        .particles-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            pointer-events: none;
+            z-index: 50;
+            display: none;
+        }
 
-    /* GRID (fundo mais baixo de todos) */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(#222 1px, transparent 1px),
-        linear-gradient(90deg, #222 1px, transparent 1px);
-      background-size: 40px 40px;
-      opacity: 0.35;
-      z-index: 0;
-    }
+        .particles-container.active {
+            display: block;
+        }
 
-    /* HEADER */
-    header {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      padding: 20px;
-      border-bottom: 1px solid #333;
-      background: #050505;
-    }
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: #00FF00;
+            box-shadow: 0 0 8px #00FF00, 0 0 16px #00FF00;
+            border-radius: 50%;
+        }
 
-    .menu-btn {
-      cursor: pointer;
-    }
+        /* Content wrapper */
+        .content-wrapper {
+            position: relative;
+            z-index: 100;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .title {
-      font-size: 12px;
-    }
+        /* Header */
+        header {
+            background-color: #050505;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #ffffff;
+            position: relative;
+            z-index: 101;
+        }
 
-    /* MENU */
-    .dropdown {
-      position: absolute;
-      top: 70px;
-      left: 20px;
-      background: #0d0d0d;
-      border: 1px solid #333;
-      box-shadow: 6px 6px 0px #222;
-      padding: 15px;
-      display: none;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 20;
-    }
+        .header-title {
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
 
-    .dropdown.active {
-      display: flex;
-    }
+        .menu-button {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px 10px;
+            font-family: 'Press Start 2P', cursive;
+        }
 
-    .dropdown button {
-      background: none;
-      border: 1px solid #333;
-      color: white;
-      padding: 8px;
-      cursor: pointer;
-      font-size: 10px;
-    }
+        /* Dropdown menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 55px;
+            left: 20px;
+            background-color: #050505;
+            border: 2px solid #ffffff;
+            display: none;
+            flex-direction: column;
+            z-index: 102;
+        }
 
-    .dropdown button:hover {
-      background: white;
-      color: black;
-    }
+        .dropdown-menu.active {
+            display: flex;
+        }
 
-    /* CONTEÚDO ACIMA DAS PARTICULAS */
-    main {
-      position: relative;
-      z-index: 5;
-    }
+        .dropdown-menu button {
+            background-color: #050505;
+            border: none;
+            border-bottom: 1px solid #ffffff;
+            color: #ffffff;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            text-align: left;
+            transition: background-color 0.2s;
+        }
 
-    .hero {
-      padding: 100px 20px;
-      text-align: center;
-    }
+        .dropdown-menu button:last-child {
+            border-bottom: none;
+        }
 
-    h1 {
-      font-size: 22px;
-      margin-bottom: 20px;
-    }
+        .dropdown-menu button:hover {
+            background-color: #1a1a1a;
+        }
 
-    p {
-      font-size: 10px;
-      color: #aaa;
-      margin-bottom: 40px;
-    }
+        /* Main content */
+        main {
+            flex: 1;
+            padding: 40px 20px;
+        }
 
-    .btn {
-      display: inline-block;
-      background: white;
-      color: black;
-      padding: 14px 35px;
-      text-decoration: none;
-      transform: skew(-10deg);
-      box-shadow: 5px 5px 0px #333;
-    }
+        /* Hero section */
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
 
-    .btn span {
-      display: inline-block;
-      transform: skew(10deg);
-      font-size: 11px;
-    }
+        .hero h1 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            letter-spacing: 3px;
+        }
 
-    .features {
-      margin-top: 80px;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 25px;
-      padding: 20px;
-    }
+        .hero p {
+            font-size: 10px;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+            color: #cccccc;
+        }
 
-    .card {
-      width: 260px;
-      padding: 20px;
-      background: #0d0d0d;
-      transform: skew(-5deg);
-      border: 1px solid #333;
-      box-shadow: 6px 6px 0px #222;
-    }
+        .play-button {
+            background-color: #ffffff;
+            color: #050505;
+            border: none;
+            padding: 15px 40px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 11px;
+            cursor: pointer;
+            transform: skewX(-10deg);
+            transition: all 0.3s;
+            letter-spacing: 1px;
+        }
 
-    .card * {
-      transform: skew(5deg);
-    }
+        .play-button:hover {
+            transform: skewX(-10deg) scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
 
-    /* FOOTER NÃO BLOQUEIA MAIS */
-    footer {
-      position: relative;
-      z-index: 5;
-      margin-top: 100px;
-      padding: 20px;
-      font-size: 9px;
-      color: #666;
-      text-align: center;
-      background: transparent;
-    }
+        /* Features section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
 
-    /* ===================== */
-    /* GRIM */
-    /* ===================== */
+        .feature-card {
+            background-color: transparent;
+            border: 2px solid #ffffff;
+            padding: 30px;
+            transform: skewX(-5deg);
+            transition: all 0.3s;
+            position: relative;
+            z-index: 100;
+        }
 
-    body.grim {
-      background: #001100;
-      color: #aaffaa;
-    }
+        .feature-card:hover {
+            transform: skewX(-5deg) translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+        }
 
-    body.grim header {
-      background: #001100;
-      border-bottom: 1px solid #00ff00;
-    }
+        .feature-card h3 {
+            font-size: 10px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
 
-    body.grim .card {
-      background: #000a00;
-      border: 1px solid #00ff00;
-      box-shadow: 0 0 10px #00ff00;
-    }
+        .feature-card p {
+            font-size: 9px;
+            line-height: 1.6;
+            color: #cccccc;
+        }
 
-    body.grim .btn {
-      background: #00ff00;
-      box-shadow: 0 0 12px #00ff00;
-    }
+        /* Footer */
+        footer {
+            background-color: #050505;
+            border-top: 2px solid #ffffff;
+            padding: 20px;
+            text-align: center;
+            font-size: 9px;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 100;
+        }
 
-    body.grim h1 {
-      text-shadow: 0 0 10px #00ff00;
-    }
+        /* Grim Fire theme */
+        body.grim-fire {
+            background-color: #001100;
+        }
 
-    /* 🔥 PARTICULAS (AGORA ENTRE FUNDO E CONTEÚDO) */
-    .particles {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      height: 80px;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 2; /* CHAVE */
-    }
+        body.grim-fire::before {
+            background-image: 
+                linear-gradient(0deg, transparent 24%, rgba(0, 255, 0, 0.03) 25%, rgba(0, 255, 0, 0.03) 26%, transparent 27%, transparent 74%, rgba(0, 255, 0, 0.03) 75%, rgba(0, 255, 0, 0.03) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, rgba(0, 255, 0, 0.03) 25%, rgba(0, 255, 0, 0.03) 26%, transparent 27%, transparent 74%, rgba(0, 255, 0, 0.03) 75%, rgba(0, 255, 0, 0.03) 76%, transparent 77%, transparent);
+        }
 
-    .pixel {
-      position: absolute;
-      width: 3px;
-      height: 3px;
-      background: #00ff00;
-      opacity: 0.9;
+        body.grim-fire header {
+            background-color: #001100;
+            border-bottom-color: #00FF00;
+        }
 
-      box-shadow:
-        0 0 4px #00ff00,
-        0 0 8px #00ff00;
+        body.grim-fire .header-title {
+            color: #00FF00;
+            text-shadow: 0 0 10px #00FF00;
+        }
 
-      animation: floatUp linear infinite;
-    }
+        body.grim-fire .menu-button {
+            color: #00FF00;
+        }
 
-    @keyframes floatUp {
-      0% { transform: translateY(0); opacity: 0.9; }
-      100% { transform: translateY(-50px); opacity: 0; }
-    }
+        body.grim-fire .dropdown-menu {
+            background-color: #001100;
+            border-color: #00FF00;
+        }
 
-  </style>
+        body.grim-fire .dropdown-menu button {
+            background-color: #001100;
+            border-bottom-color: #00FF00;
+            color: #00FF00;
+        }
+
+        body.grim-fire .dropdown-menu button:hover {
+            background-color: #003300;
+            box-shadow: 0 0 10px #00FF00;
+        }
+
+        body.grim-fire .hero h1 {
+            color: #00FF00;
+            text-shadow: 0 0 10px #00FF00;
+        }
+
+        body.grim-fire .hero p {
+            color: #00AA00;
+        }
+
+        body.grim-fire .play-button {
+            background-color: #00FF00;
+            color: #001100;
+            box-shadow: 0 0 10px #00FF00;
+        }
+
+        body.grim-fire .play-button:hover {
+            box-shadow: 0 0 20px #00FF00, 0 0 40px #00FF00;
+        }
+
+        body.grim-fire .feature-card {
+            background-color: #000a00;
+            border-color: #00FF00;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+
+        body.grim-fire .feature-card:hover {
+            box-shadow: 0 0 20px #00FF00, 0 0 40px rgba(0, 255, 0, 0.5);
+        }
+
+        body.grim-fire .feature-card h3 {
+            color: #00FF00;
+            text-shadow: 0 0 5px #00FF00;
+        }
+
+        body.grim-fire .feature-card p {
+            color: #00AA00;
+        }
+
+        body.grim-fire footer {
+            background-color: #001100;
+            border-top-color: #00FF00;
+            color: #00FF00;
+        }
+
+        @media (max-width: 768px) {
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 10px 15px;
+            }
+
+            .hero h1 {
+                font-size: 18px;
+            }
+
+            main {
+                padding: 30px 15px;
+            }
+        }
+    </style>
 </head>
-
 <body>
+    <div class="particles-container" id="particlesContainer"></div>
 
-<header>
-  <div class="menu-btn" onclick="toggleMenu()">☰</div>
-  <div class="title">ZENITH VALUES</div>
-</header>
+    <div class="content-wrapper">
+        <header>
+            <button class="menu-button" id="menuButton">☰</button>
+            <div class="header-title">ZENITH VALUES</div>
+            <div></div>
+        </header>
 
-<div class="dropdown" id="menu">
-  <button onclick="setTheme('default')">Default</button>
-  <button onclick="setTheme('grim')">Grim Fire</button>
-</div>
+        <div class="dropdown-menu" id="dropdownMenu">
+            <button id="defaultTheme">Default</button>
+            <button id="grimFire">Grim Fire</button>
+        </div>
 
-<!-- 🔥 PARTÍCULAS -->
-<div class="particles" id="particles"></div>
+        <main>
+            <section class="hero">
+                <h1>Ball Tower Defense</h1>
+                <p>Strategic gameplay with endless possibilities</p>
+                <button class="play-button">PLAY NOW</button>
+            </section>
 
-<main>
-  <section class="hero">
-    <h1>Ball Tower Defense</h1>
-    <p>Retro roots. Cyber strategy. Pure defense action.</p>
-    <a class="btn" href="#"><span>PLAY NOW</span></a>
-  </section>
+            <section class="features">
+                <div class="feature-card">
+                    <h3>STRATEGY</h3>
+                    <p>Master complex tower placements and upgrade paths to defend against endless waves</p>
+                </div>
+                <div class="feature-card">
+                    <h3>CHALLENGES</h3>
+                    <p>Face increasingly difficult enemies with unique abilities and tactical requirements</p>
+                </div>
+                <div class="feature-card">
+                    <h3>REWARDS</h3>
+                    <p>Unlock powerful upgrades and rare items as you progress through levels</p>
+                </div>
+            </section>
+        </main>
 
-  <section class="features">
-    <div class="card">
-      <h3>CLASSIC CORE</h3>
-      <p>Old-school Roblox gameplay.</p>
+        <footer>
+            © 2026 ZENITH VALUES | ALL RIGHTS RESERVED
+        </footer>
     </div>
-    <div class="card">
-      <h3>SMART STRATEGY</h3>
-      <p>Upgrade and defend.</p>
-    </div>
-    <div class="card">
-      <h3>ENDLESS WAVES</h3>
-      <p>Enemies evolve.</p>
-    </div>
-  </section>
 
-  <footer>
-    © 2026 Zenith Values
-  </footer>
-</main>
+    <script>
+        const menuButton = document.getElementById('menuButton');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const defaultThemeBtn = document.getElementById('defaultTheme');
+        const grimFireBtn = document.getElementById('grimFire');
+        const particlesContainer = document.getElementById('particlesContainer');
+        const body = document.body;
 
-<script>
-  function toggleMenu() {
-    document.getElementById("menu").classList.toggle("active");
-  }
+        menuButton.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('active');
+        });
 
-  function setTheme(theme) {
-    const particles = document.getElementById("particles");
-    particles.innerHTML = "";
+        defaultThemeBtn.addEventListener('click', () => {
+            body.classList.remove('grim-fire');
+            particlesContainer.classList.remove('active');
+            dropdownMenu.classList.remove('active');
+            removeParticles();
+        });
 
-    document.body.classList.remove("grim");
+        grimFireBtn.addEventListener('click', () => {
+            body.classList.add('grim-fire');
+            particlesContainer.classList.add('active');
+            dropdownMenu.classList.remove('active');
+            createParticles();
+        });
 
-    if (theme === "grim") {
-      document.body.classList.add("grim");
+        function createParticles() {
+            removeParticles();
+            for (let i = 0; i < 120; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                const startX = Math.random() * window.innerWidth;
+                const startY = window.innerHeight - Math.random() * 80;
+                const duration = 2 + Math.random() * 3;
+                const delay = Math.random() * 0.5;
+                const moveDistance = 30 + Math.random() * 20;
 
-      for (let i = 0; i < 120; i++) {
-        let p = document.createElement("div");
-        p.className = "pixel";
-        p.style.left = Math.random() * 100 + "%";
-        p.style.animationDuration = (2 + Math.random() * 2) + "s";
-        particles.appendChild(p);
-      }
-    }
-  }
-</script>
+                particle.style.left = startX + 'px';
+                particle.style.top = startY + 'px';
+                particle.style.animation = `floatUp ${duration}s ease-out ${delay}s forwards`;
 
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        function removeParticles() {
+            while (particlesContainer.firstChild) {
+                particlesContainer.removeChild(particlesContainer.firstChild);
+            }
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes floatUp {
+                0% {
+                    opacity: 1;
+                    transform: translateY(0) translateX(0);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY(-50px) translateX(${Math.random() > 0.5 ? '' : '-'}${Math.random() * 20}px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        document.addEventListener('click', (e) => {
+            if (!menuButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
