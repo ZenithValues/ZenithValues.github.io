@@ -16,9 +16,10 @@
     }
 
     body {
-      background: #050505;
-      color: white;
+      background: #000000;
+      color: #ffffff;
       transition: 0.3s;
+      overflow-x: hidden;
     }
 
     /* GRID */
@@ -30,20 +31,21 @@
                         linear-gradient(90deg, #111 1px, transparent 1px);
       background-size: 40px 40px;
       opacity: 0.2;
-      z-index: -2;
+      z-index: -3;
     }
 
-    /* HEADER */
     header {
       display: flex;
       align-items: center;
       gap: 20px;
       padding: 20px;
-      border-bottom: 1px solid #222;
+      border-bottom: 1px solid #00ff00;
+      text-shadow: 0 0 10px #00ff00;
     }
 
     .menu-btn {
       cursor: pointer;
+      font-size: 16px;
     }
 
     .title {
@@ -55,9 +57,9 @@
       position: absolute;
       top: 70px;
       left: 20px;
-      background: #0d0d0d;
-      border: 1px solid #333;
-      box-shadow: 6px 6px 0px #222;
+      background: #001a00;
+      border: 1px solid #00ff00;
+      box-shadow: 0 0 10px #00ff00;
       padding: 15px;
       display: none;
       flex-direction: column;
@@ -69,20 +71,19 @@
     }
 
     .dropdown button {
-      background: none;
-      border: 1px solid #333;
-      color: white;
+      background: black;
+      border: 1px solid #00ff00;
+      color: #00ff00;
       padding: 8px;
       cursor: pointer;
       font-size: 10px;
     }
 
     .dropdown button:hover {
-      background: white;
+      background: #00ff00;
       color: black;
     }
 
-    /* HERO */
     .hero {
       padding: 100px 20px;
       text-align: center;
@@ -91,22 +92,23 @@
     h1 {
       font-size: 22px;
       margin-bottom: 20px;
+      text-shadow: 0 0 15px #00ff00;
     }
 
     p {
       font-size: 10px;
-      color: #aaa;
+      color: #88ff88;
       margin-bottom: 40px;
     }
 
     .btn {
       display: inline-block;
-      background: white;
+      background: #00ff00;
       color: black;
       padding: 14px 35px;
       text-decoration: none;
       transform: skew(-10deg);
-      box-shadow: 5px 5px 0px #333;
+      box-shadow: 0 0 15px #00ff00;
     }
 
     .btn span {
@@ -115,7 +117,6 @@
       font-size: 11px;
     }
 
-    /* CARDS */
     .features {
       margin-top: 80px;
       display: flex;
@@ -128,10 +129,10 @@
     .card {
       width: 260px;
       padding: 20px;
-      background: #0d0d0d;
+      background: #001100;
       transform: skew(-5deg);
-      border: 1px solid #333;
-      box-shadow: 6px 6px 0px #222;
+      border: 1px solid #00ff00;
+      box-shadow: 0 0 10px #00ff00;
     }
 
     .card * {
@@ -141,59 +142,51 @@
     .card h3 {
       font-size: 10px;
       margin-bottom: 10px;
+      color: #00ff00;
     }
 
     .card p {
       font-size: 9px;
-      color: #bbb;
+      color: #aaffaa;
     }
 
-    /* ===================== */
-    /* 🔥 GRIM FIRE THEME */
-    /* ===================== */
-
-    .grim {
-      color: #9bff9b;
+    footer {
+      margin-top: 100px;
+      padding: 20px;
+      font-size: 9px;
+      color: #00ff00;
+      text-align: center;
     }
 
-    .grim .btn {
-      background: #00ff66;
-      box-shadow: 5px 5px 0px #006633;
-    }
-
-    .grim .card {
-      border: 1px solid #00ff66;
-      box-shadow: 6px 6px 0px #003311;
-    }
-
-    .grim header {
-      border-bottom: 1px solid #00ff66;
-    }
-
-    /* PIXEL FIRE */
-    .fire {
+    /* 🔥 PIXEL FIRE PARTICLES */
+    .fire-container {
       position: fixed;
       bottom: 0;
-      left: 0;
       width: 100%;
-      height: 60px;
+      height: 120px;
       pointer-events: none;
+      overflow: hidden;
       z-index: -1;
-      background: repeating-linear-gradient(
-        0deg,
-        #00ff66,
-        #00ff66 4px,
-        transparent 4px,
-        transparent 8px
-      );
-      animation: fireAnim 0.4s infinite;
-      opacity: 0.2;
     }
 
-    @keyframes fireAnim {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
-      100% { transform: translateY(0); }
+    .pixel {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #00ff00;
+      box-shadow: 0 0 8px #00ff00;
+      animation: rise linear infinite;
+    }
+
+    @keyframes rise {
+      from {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-120px);
+        opacity: 0;
+      }
     }
 
   </style>
@@ -211,7 +204,7 @@
   <button onclick="setTheme('grim')">Grim Fire</button>
 </div>
 
-<div id="fire"></div>
+<div class="fire-container" id="fire"></div>
 
 <section class="hero">
   <h1>Ball Tower Defense</h1>
@@ -222,19 +215,19 @@
 <section class="features">
   <div class="card">
     <h3>CLASSIC CORE</h3>
-    <p>Inspired by old-school Roblox gameplay.</p>
+    <p>Old-school Roblox gameplay.</p>
   </div>
   <div class="card">
     <h3>SMART STRATEGY</h3>
-    <p>Plan and upgrade your towers.</p>
+    <p>Upgrade and defend.</p>
   </div>
   <div class="card">
     <h3>ENDLESS WAVES</h3>
-    <p>Enemies keep evolving.</p>
+    <p>Enemies evolve.</p>
   </div>
 </section>
 
-<footer style="text-align:center; margin-top:100px; font-size:9px; color:#555;">
+<footer>
   © 2026 Zenith Values
 </footer>
 
@@ -244,15 +237,17 @@
   }
 
   function setTheme(theme) {
-    document.body.className = "";
-
     const fire = document.getElementById("fire");
+    fire.innerHTML = "";
 
     if (theme === "grim") {
-      document.body.classList.add("grim");
-      fire.classList.add("fire");
-    } else {
-      fire.classList.remove("fire");
+      for (let i = 0; i < 60; i++) {
+        let p = document.createElement("div");
+        p.className = "pixel";
+        p.style.left = Math.random() * 100 + "%";
+        p.style.animationDuration = (1 + Math.random()) + "s";
+        fire.appendChild(p);
+      }
     }
   }
 </script>
