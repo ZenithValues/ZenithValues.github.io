@@ -15,22 +15,25 @@
       font-family: 'Press Start 2P', cursive;
     }
 
+    /* ===================== */
+    /* DEFAULT (PRETO/BRANCO) */
+    /* ===================== */
     body {
-      background: #000000;
+      background: #050505;
       color: #ffffff;
-      transition: 0.3s;
       overflow-x: hidden;
     }
 
-    /* GRID */
+    /* GRID VISÍVEL */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      background-image: linear-gradient(#111 1px, transparent 1px),
-                        linear-gradient(90deg, #111 1px, transparent 1px);
+      background-image:
+        linear-gradient(#222 1px, transparent 1px),
+        linear-gradient(90deg, #222 1px, transparent 1px);
       background-size: 40px 40px;
-      opacity: 0.2;
+      opacity: 0.4;
       z-index: -3;
     }
 
@@ -39,13 +42,11 @@
       align-items: center;
       gap: 20px;
       padding: 20px;
-      border-bottom: 1px solid #00ff00;
-      text-shadow: 0 0 10px #00ff00;
+      border-bottom: 1px solid #333;
     }
 
     .menu-btn {
       cursor: pointer;
-      font-size: 16px;
     }
 
     .title {
@@ -57,9 +58,9 @@
       position: absolute;
       top: 70px;
       left: 20px;
-      background: #001a00;
-      border: 1px solid #00ff00;
-      box-shadow: 0 0 10px #00ff00;
+      background: #0d0d0d;
+      border: 1px solid #333;
+      box-shadow: 6px 6px 0px #222;
       padding: 15px;
       display: none;
       flex-direction: column;
@@ -71,16 +72,16 @@
     }
 
     .dropdown button {
-      background: black;
-      border: 1px solid #00ff00;
-      color: #00ff00;
+      background: none;
+      border: 1px solid #333;
+      color: white;
       padding: 8px;
       cursor: pointer;
       font-size: 10px;
     }
 
     .dropdown button:hover {
-      background: #00ff00;
+      background: white;
       color: black;
     }
 
@@ -92,23 +93,22 @@
     h1 {
       font-size: 22px;
       margin-bottom: 20px;
-      text-shadow: 0 0 15px #00ff00;
     }
 
     p {
       font-size: 10px;
-      color: #88ff88;
+      color: #aaa;
       margin-bottom: 40px;
     }
 
     .btn {
       display: inline-block;
-      background: #00ff00;
+      background: white;
       color: black;
       padding: 14px 35px;
       text-decoration: none;
       transform: skew(-10deg);
-      box-shadow: 0 0 15px #00ff00;
+      box-shadow: 5px 5px 0px #333;
     }
 
     .btn span {
@@ -129,10 +129,10 @@
     .card {
       width: 260px;
       padding: 20px;
-      background: #001100;
+      background: #0d0d0d;
       transform: skew(-5deg);
-      border: 1px solid #00ff00;
-      box-shadow: 0 0 10px #00ff00;
+      border: 1px solid #333;
+      box-shadow: 6px 6px 0px #222;
     }
 
     .card * {
@@ -142,30 +142,79 @@
     .card h3 {
       font-size: 10px;
       margin-bottom: 10px;
-      color: #00ff00;
     }
 
     .card p {
       font-size: 9px;
-      color: #aaffaa;
+      color: #bbb;
     }
 
     footer {
       margin-top: 100px;
       padding: 20px;
       font-size: 9px;
-      color: #00ff00;
+      color: #666;
       text-align: center;
     }
 
-    /* 🔥 PIXEL FIRE PARTICLES */
+    /* ===================== */
+    /* GRIM FIRE THEME */
+    /* ===================== */
+    body.grim {
+      background: #001100;
+      color: #aaffaa;
+    }
+
+    body.grim header {
+      border-bottom: 1px solid #00ff00;
+      text-shadow: 0 0 10px #00ff00;
+    }
+
+    body.grim .btn {
+      background: #00ff00;
+      color: black;
+      box-shadow: 0 0 15px #00ff00;
+    }
+
+    body.grim .card {
+      border: 1px solid #00ff00;
+      box-shadow: 0 0 12px #00ff00;
+      background: #002200;
+    }
+
+    body.grim h1 {
+      text-shadow: 0 0 15px #00ff00;
+    }
+
+    /* 🔥 BASE DO FOGO */
+    .fire-base {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 40px;
+      background: repeating-linear-gradient(
+        0deg,
+        #00ff00,
+        #00ff00 4px,
+        #007700 4px,
+        #007700 8px
+      );
+      opacity: 0.5;
+      z-index: -2;
+      display: none;
+    }
+
+    body.grim .fire-base {
+      display: block;
+    }
+
+    /* 🔥 PARTÍCULAS */
     .fire-container {
       position: fixed;
       bottom: 0;
       width: 100%;
       height: 120px;
       pointer-events: none;
-      overflow: hidden;
       z-index: -1;
     }
 
@@ -174,21 +223,14 @@
       width: 6px;
       height: 6px;
       background: #00ff00;
-      box-shadow: 0 0 8px #00ff00;
+      box-shadow: 0 0 10px #00ff00;
       animation: rise linear infinite;
     }
 
     @keyframes rise {
-      from {
-        transform: translateY(0);
-        opacity: 1;
-      }
-      to {
-        transform: translateY(-120px);
-        opacity: 0;
-      }
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-120px); opacity: 0; }
     }
-
   </style>
 </head>
 
@@ -204,6 +246,7 @@
   <button onclick="setTheme('grim')">Grim Fire</button>
 </div>
 
+<div class="fire-base"></div>
 <div class="fire-container" id="fire"></div>
 
 <section class="hero">
@@ -240,12 +283,16 @@
     const fire = document.getElementById("fire");
     fire.innerHTML = "";
 
+    document.body.classList.remove("grim");
+
     if (theme === "grim") {
-      for (let i = 0; i < 60; i++) {
+      document.body.classList.add("grim");
+
+      for (let i = 0; i < 80; i++) {
         let p = document.createElement("div");
         p.className = "pixel";
         p.style.left = Math.random() * 100 + "%";
-        p.style.animationDuration = (1 + Math.random()) + "s";
+        p.style.animationDuration = (0.8 + Math.random()) + "s";
         fire.appendChild(p);
       }
     }
