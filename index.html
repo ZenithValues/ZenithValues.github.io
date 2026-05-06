@@ -38,16 +38,16 @@
 
         body.default-theme {
             --neon-color: #00FFC8;
-            --neon-glow: rgba(0, 255, 200, 0.6);
-            --accent-color: #00DDAA;
-            --dark-bg: #0a1a1a;
+            --neon-glow: rgba(0, 255, 200, 0.4);
+            --text-color: #ffffff;
+            --accent-color: #ffffff;
         }
 
         body.grim-fire {
             --neon-color: #00FF00;
-            --neon-glow: rgba(0, 255, 0, 0.6);
-            --accent-color: #00DD00;
-            --dark-bg: #0a0a0a;
+            --neon-glow: rgba(0, 255, 0, 0.4);
+            --text-color: #00FF00;
+            --accent-color: #00FF00;
         }
 
         /* Fire container - positioned above footer */
@@ -262,100 +262,87 @@
             padding: 25px;
             transition: all 0.3s;
             z-index: 100;
-            background: var(--dark-bg);
+            background: #0a0a0a;
             border: 2px solid var(--neon-color);
-            clip-path: polygon(
-                0 15px, 15px 0, calc(100% - 15px) 0, 100% 15px, 
-                100% calc(100% - 15px), calc(100% - 15px) 100%, 
-                15px 100%, 0 calc(100% - 15px)
-            );
+            border-radius: 8px;
+            overflow: visible;
         }
 
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border: 1px solid var(--neon-color);
-            clip-path: polygon(
-                0 15px, 15px 0, calc(100% - 15px) 0, 100% 15px, 
-                100% calc(100% - 15px), calc(100% - 15px) 100%, 
-                15px 100%, 0 calc(100% - 15px)
-            );
-            box-shadow: inset 0 0 20px var(--neon-glow), 0 0 20px var(--neon-glow);
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
+        /* Custom corner brackets */
+        .feature-card::before,
         .feature-card::after {
             content: '';
             position: absolute;
-            top: 8px;
-            right: 8px;
             width: 12px;
             height: 12px;
             border: 2px solid var(--neon-color);
-            box-shadow: 0 0 10px var(--neon-glow);
-            z-index: 2;
+            box-shadow: 0 0 8px var(--neon-glow);
         }
 
-        .feature-card-corner {
+        .feature-card::before {
+            top: -2px;
+            left: -2px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .feature-card::after {
+            top: -2px;
+            right: -2px;
+            border-left: none;
+            border-bottom: none;
+            box-shadow: 0 0 8px var(--neon-glow);
+        }
+
+        /* Bottom corner brackets */
+        .feature-card .corner-bottom-left {
             position: absolute;
-            width: 10px;
-            height: 10px;
+            bottom: -2px;
+            left: -2px;
+            width: 12px;
+            height: 12px;
             border: 2px solid var(--neon-color);
+            border-right: none;
+            border-top: none;
+            box-shadow: 0 0 8px var(--neon-glow);
+        }
+
+        .feature-card .corner-bottom-right {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 12px;
+            height: 12px;
+            border: 2px solid var(--neon-color);
+            border-left: none;
+            border-top: none;
+            box-shadow: 0 0 8px var(--neon-glow);
+        }
+
+        /* Accent dot */
+        .feature-card .accent-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            border: 2px solid var(--neon-color);
+            box-shadow: 0 0 6px var(--neon-glow);
             z-index: 2;
-        }
-
-        .feature-card-corner-tl {
-            top: 2px;
-            left: 2px;
-            border-right: none;
-            border-bottom: none;
-            box-shadow: 0 0 5px var(--neon-glow);
-        }
-
-        .feature-card-corner-tr {
-            top: 2px;
-            right: 2px;
-            border-left: none;
-            border-bottom: none;
-            box-shadow: 0 0 5px var(--neon-glow);
-        }
-
-        .feature-card-corner-bl {
-            bottom: 2px;
-            left: 2px;
-            border-right: none;
-            border-top: none;
-            box-shadow: 0 0 5px var(--neon-glow);
-        }
-
-        .feature-card-corner-br {
-            bottom: 2px;
-            right: 2px;
-            border-left: none;
-            border-top: none;
-            box-shadow: 0 0 5px var(--neon-glow);
         }
 
         .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 0 40px var(--neon-glow), 0 10px 30px rgba(0, 100, 200, 0.3);
-        }
-
-        .feature-card:hover::before {
-            opacity: 1;
+            box-shadow: 0 0 30px var(--neon-glow), 0 10px 30px rgba(0, 100, 200, 0.2);
+            border-color: var(--neon-color);
         }
 
         .feature-card h3 {
             font-size: 9px;
             margin-bottom: 10px;
             letter-spacing: 2px;
-            color: var(--neon-color);
-            text-shadow: 0 0 10px var(--neon-glow);
+            color: var(--text-color);
+            text-shadow: 0 0 8px var(--neon-glow);
             position: relative;
             z-index: 1;
         }
@@ -429,26 +416,23 @@
 
             <section class="features">
                 <div class="feature-card">
-                    <div class="feature-card-corner feature-card-corner-tl"></div>
-                    <div class="feature-card-corner feature-card-corner-tr"></div>
-                    <div class="feature-card-corner feature-card-corner-bl"></div>
-                    <div class="feature-card-corner feature-card-corner-br"></div>
+                    <div class="accent-dot"></div>
+                    <div class="corner-bottom-left"></div>
+                    <div class="corner-bottom-right"></div>
                     <h3>STRATEGY</h3>
                     <p>Master complex tower placements and upgrade paths to defend against endless waves</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-card-corner feature-card-corner-tl"></div>
-                    <div class="feature-card-corner feature-card-corner-tr"></div>
-                    <div class="feature-card-corner feature-card-corner-bl"></div>
-                    <div class="feature-card-corner feature-card-corner-br"></div>
+                    <div class="accent-dot"></div>
+                    <div class="corner-bottom-left"></div>
+                    <div class="corner-bottom-right"></div>
                     <h3>CHALLENGES</h3>
                     <p>Face increasingly difficult enemies with unique abilities and tactical requirements</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-card-corner feature-card-corner-tl"></div>
-                    <div class="feature-card-corner feature-card-corner-tr"></div>
-                    <div class="feature-card-corner feature-card-corner-bl"></div>
-                    <div class="feature-card-corner feature-card-corner-br"></div>
+                    <div class="accent-dot"></div>
+                    <div class="corner-bottom-left"></div>
+                    <div class="corner-bottom-right"></div>
                     <h3>REWARDS</h3>
                     <p>Unlock powerful upgrades and rare items as you progress through levels</p>
                 </div>
