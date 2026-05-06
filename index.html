@@ -36,6 +36,20 @@
             z-index: 1;
         }
 
+        body.default-theme {
+            --neon-color: #00FFC8;
+            --neon-glow: rgba(0, 255, 200, 0.6);
+            --accent-color: #00DDAA;
+            --dark-bg: #0a1a1a;
+        }
+
+        body.grim-fire {
+            --neon-color: #00FF00;
+            --neon-glow: rgba(0, 255, 0, 0.6);
+            --accent-color: #00DD00;
+            --dark-bg: #0a0a0a;
+        }
+
         /* Fire container - positioned above footer */
         .fire-container {
             position: fixed;
@@ -82,10 +96,19 @@
             z-index: 101;
         }
 
+        body.grim-fire header {
+            border-bottom-color: #00FF00;
+        }
+
         .header-title {
             font-size: 12px;
             font-weight: bold;
             letter-spacing: 2px;
+        }
+
+        body.grim-fire .header-title {
+            color: #00FF00;
+            text-shadow: 0 0 10px #00FF00;
         }
 
         .menu-button {
@@ -96,6 +119,15 @@
             cursor: pointer;
             padding: 5px 10px;
             font-family: 'Press Start 2P', cursive;
+            transition: all 0.3s;
+        }
+
+        .menu-button:hover {
+            transform: scale(1.1);
+        }
+
+        body.grim-fire .menu-button {
+            color: #00FF00;
         }
 
         /* Dropdown menu */
@@ -108,10 +140,18 @@
             display: none;
             flex-direction: column;
             z-index: 102;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
         .dropdown-menu.active {
             display: flex;
+            max-height: 300px;
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .dropdown-menu button {
@@ -124,7 +164,7 @@
             font-family: 'Press Start 2P', cursive;
             font-size: 10px;
             text-align: left;
-            transition: background-color 0.2s;
+            transition: all 0.3s;
         }
 
         .dropdown-menu button:last-child {
@@ -133,6 +173,24 @@
 
         .dropdown-menu button:hover {
             background-color: #1a1a1a;
+            padding-left: 30px;
+            box-shadow: inset 0 0 10px rgba(0, 255, 200, 0.2);
+        }
+
+        body.grim-fire .dropdown-menu {
+            background-color: #000000;
+            border-color: #00FF00;
+        }
+
+        body.grim-fire .dropdown-menu button {
+            background-color: #000000;
+            border-bottom-color: #00FF00;
+            color: #00FF00;
+        }
+
+        body.grim-fire .dropdown-menu button:hover {
+            background-color: #001a00;
+            box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.3), 0 0 10px #00FF00;
         }
 
         /* Main content */
@@ -178,6 +236,16 @@
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
         }
 
+        body.grim-fire .play-button {
+            background-color: #00FF00;
+            color: #000000;
+            box-shadow: 0 0 10px #00FF00;
+        }
+
+        body.grim-fire .play-button:hover {
+            box-shadow: 0 0 20px #00FF00, 0 0 40px #00FF00;
+        }
+
         /* Features section */
         .features {
             display: grid;
@@ -190,49 +258,114 @@
         }
 
         .feature-card {
-            background: linear-gradient(135deg, rgba(0, 255, 200, 0.05) 0%, rgba(0, 100, 150, 0.05) 100%);
-            border: 2px solid #00FFC8;
-            border-radius: 8px;
-            padding: 20px;
-            transition: all 0.3s;
             position: relative;
+            padding: 25px;
+            transition: all 0.3s;
             z-index: 100;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(0, 255, 200, 0.3), inset 0 0 10px rgba(0, 255, 200, 0.1);
+            background: var(--dark-bg);
+            border: 2px solid var(--neon-color);
+            clip-path: polygon(
+                0 15px, 15px 0, calc(100% - 15px) 0, 100% 15px, 
+                100% calc(100% - 15px), calc(100% - 15px) 100%, 
+                15px 100%, 0 calc(100% - 15px)
+            );
         }
 
         .feature-card::before {
             content: '';
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #00FFC8, #0099FF, #00FFC8);
-            border-radius: 8px;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px solid var(--neon-color);
+            clip-path: polygon(
+                0 15px, 15px 0, calc(100% - 15px) 0, 100% 15px, 
+                100% calc(100% - 15px), calc(100% - 15px) 100%, 
+                15px 100%, 0 calc(100% - 15px)
+            );
+            box-shadow: inset 0 0 20px var(--neon-glow), 0 0 20px var(--neon-glow);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 12px;
+            height: 12px;
+            border: 2px solid var(--neon-color);
+            box-shadow: 0 0 10px var(--neon-glow);
+            z-index: 2;
+        }
+
+        .feature-card-corner {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 2px solid var(--neon-color);
+            z-index: 2;
+        }
+
+        .feature-card-corner-tl {
+            top: 2px;
+            left: 2px;
+            border-right: none;
+            border-bottom: none;
+            box-shadow: 0 0 5px var(--neon-glow);
+        }
+
+        .feature-card-corner-tr {
+            top: 2px;
+            right: 2px;
+            border-left: none;
+            border-bottom: none;
+            box-shadow: 0 0 5px var(--neon-glow);
+        }
+
+        .feature-card-corner-bl {
+            bottom: 2px;
+            left: 2px;
+            border-right: none;
+            border-top: none;
+            box-shadow: 0 0 5px var(--neon-glow);
+        }
+
+        .feature-card-corner-br {
+            bottom: 2px;
+            right: 2px;
+            border-left: none;
+            border-top: none;
+            box-shadow: 0 0 5px var(--neon-glow);
         }
 
         .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 0 40px rgba(0, 255, 200, 0.6), 0 10px 30px rgba(0, 100, 200, 0.3), inset 0 0 20px rgba(0, 255, 200, 0.2);
-            border-color: #00FFFF;
+            box-shadow: 0 0 40px var(--neon-glow), 0 10px 30px rgba(0, 100, 200, 0.3);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
         }
 
         .feature-card h3 {
             font-size: 9px;
             margin-bottom: 10px;
             letter-spacing: 2px;
-            color: #00FFC8;
-            text-shadow: 0 0 10px rgba(0, 255, 200, 0.8);
+            color: var(--neon-color);
+            text-shadow: 0 0 10px var(--neon-glow);
+            position: relative;
+            z-index: 1;
         }
 
         .feature-card p {
             font-size: 8px;
             line-height: 1.5;
-            color: #00DDAA;
+            color: var(--accent-color);
+            position: relative;
+            z-index: 1;
         }
 
         /* Footer */
@@ -245,86 +378,6 @@
             letter-spacing: 1px;
             position: relative;
             z-index: 100;
-        }
-
-        /* Grim Fire theme */
-        body.grim-fire {
-            background-color: #000000;
-        }
-
-        body.grim-fire::before {
-            background-image: 
-                linear-gradient(0deg, transparent 24%, rgba(0, 255, 0, 0.08) 25%, rgba(0, 255, 0, 0.08) 26%, transparent 27%, transparent 74%, rgba(0, 255, 0, 0.08) 75%, rgba(0, 255, 0, 0.08) 76%, transparent 77%, transparent 100%),
-                linear-gradient(90deg, transparent 24%, rgba(0, 255, 0, 0.08) 25%, rgba(0, 255, 0, 0.08) 26%, transparent 27%, transparent 74%, rgba(0, 255, 0, 0.08) 75%, rgba(0, 255, 0, 0.08) 76%, transparent 77%, transparent 100%);
-        }
-
-        body.grim-fire header {
-            background-color: #000000;
-            border-bottom-color: #00FF00;
-        }
-
-        body.grim-fire .header-title {
-            color: #00FF00;
-            text-shadow: 0 0 10px #00FF00;
-        }
-
-        body.grim-fire .menu-button {
-            color: #00FF00;
-        }
-
-        body.grim-fire .dropdown-menu {
-            background-color: #000000;
-            border-color: #00FF00;
-        }
-
-        body.grim-fire .dropdown-menu button {
-            background-color: #000000;
-            border-bottom-color: #00FF00;
-            color: #00FF00;
-        }
-
-        body.grim-fire .dropdown-menu button:hover {
-            background-color: #001a00;
-            box-shadow: 0 0 10px #00FF00;
-        }
-
-        body.grim-fire .hero h1 {
-            color: #00FF00;
-            text-shadow: 0 0 10px #00FF00;
-        }
-
-        body.grim-fire .hero p {
-            color: #00AA00;
-        }
-
-        body.grim-fire .play-button {
-            background-color: #00FF00;
-            color: #000000;
-            box-shadow: 0 0 10px #00FF00;
-        }
-
-        body.grim-fire .play-button:hover {
-            box-shadow: 0 0 20px #00FF00, 0 0 40px #00FF00;
-        }
-
-        body.grim-fire .feature-card {
-            background: linear-gradient(135deg, rgba(0, 255, 0, 0.08) 0%, rgba(0, 100, 0, 0.08) 100%);
-            border-color: #00FF00;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.4), inset 0 0 10px rgba(0, 255, 0, 0.15);
-        }
-
-        body.grim-fire .feature-card:hover {
-            box-shadow: 0 0 40px rgba(0, 255, 0, 0.7), 0 10px 30px rgba(0, 150, 0, 0.4), inset 0 0 20px rgba(0, 255, 0, 0.25);
-            border-color: #00FF00;
-        }
-
-        body.grim-fire .feature-card h3 {
-            color: #00FF00;
-            text-shadow: 0 0 10px #00FF00;
-        }
-
-        body.grim-fire .feature-card p {
-            color: #00DD00;
         }
 
         body.grim-fire footer {
@@ -352,7 +405,7 @@
         }
     </style>
 </head>
-<body>
+<body class="default-theme">
     <div class="fire-container" id="fireContainer"></div>
 
     <div class="content-wrapper">
@@ -376,14 +429,26 @@
 
             <section class="features">
                 <div class="feature-card">
+                    <div class="feature-card-corner feature-card-corner-tl"></div>
+                    <div class="feature-card-corner feature-card-corner-tr"></div>
+                    <div class="feature-card-corner feature-card-corner-bl"></div>
+                    <div class="feature-card-corner feature-card-corner-br"></div>
                     <h3>STRATEGY</h3>
                     <p>Master complex tower placements and upgrade paths to defend against endless waves</p>
                 </div>
                 <div class="feature-card">
+                    <div class="feature-card-corner feature-card-corner-tl"></div>
+                    <div class="feature-card-corner feature-card-corner-tr"></div>
+                    <div class="feature-card-corner feature-card-corner-bl"></div>
+                    <div class="feature-card-corner feature-card-corner-br"></div>
                     <h3>CHALLENGES</h3>
                     <p>Face increasingly difficult enemies with unique abilities and tactical requirements</p>
                 </div>
                 <div class="feature-card">
+                    <div class="feature-card-corner feature-card-corner-tl"></div>
+                    <div class="feature-card-corner feature-card-corner-tr"></div>
+                    <div class="feature-card-corner feature-card-corner-bl"></div>
+                    <div class="feature-card-corner feature-card-corner-br"></div>
                     <h3>REWARDS</h3>
                     <p>Unlock powerful upgrades and rare items as you progress through levels</p>
                 </div>
@@ -409,12 +474,14 @@
 
         defaultThemeBtn.addEventListener('click', () => {
             body.classList.remove('grim-fire');
+            body.classList.add('default-theme');
             fireContainer.classList.remove('active');
             dropdownMenu.classList.remove('active');
             removeFireEffect();
         });
 
         grimFireBtn.addEventListener('click', () => {
+            body.classList.remove('default-theme');
             body.classList.add('grim-fire');
             fireContainer.classList.add('active');
             dropdownMenu.classList.remove('active');
