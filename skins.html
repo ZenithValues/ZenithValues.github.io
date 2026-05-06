@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zenith Values — Skins</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <span>MENU</span>
+    <button class="close-btn" onclick="toggleSidebar()">✕</button>
+  </div>
+  <ul class="sidebar-nav">
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" onclick="toggleDropdown(event, this)">
+        <span class="nav-icon">⚔</span> Towers <span class="arrow">▾</span>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a href="index.html#all">All Towers</a></li>
+        <li><a href="index.html#common" class="rarity-link common">Common</a></li>
+        <li><a href="index.html#uncommon" class="rarity-link uncommon">Uncommon</a></li>
+        <li><a href="index.html#rare" class="rarity-link rare">Rare</a></li>
+        <li><a href="index.html#epic" class="rarity-link epic">Epic</a></li>
+        <li><a href="index.html#legendary" class="rarity-link legendary">Legendary</a></li>
+        <li><a href="index.html#mythical" class="rarity-link mythical">Mythical</a></li>
+        <li><a href="index.html#secret" class="rarity-link secret">Secret</a></li>
+      </ul>
+    </li>
+    <li><a href="skins.html" class="active-link"><span class="nav-icon">◈</span> Skins</a></li>
+    <li><a href="enchants.html"><span class="nav-icon">⚡</span> Enchants</a></li>
+    <li><a href="tradecalc.html"><span class="nav-icon">⇅</span> Trade Calc</a></li>
+  </ul>
+  <div class="sidebar-footer">ZENITH VALUES v0.1.0</div>
+</aside>
+
+<header>
+  <div class="header-left">
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    <div class="logo">ZENITH VALUES</div>
+  </div>
+  <div class="header-status">
+    <div class="status-dot"></div>
+    <span>LIVE</span>
+  </div>
+</header>
+
+<section class="page-header">
+  <h1>Skins</h1>
+  <p>Cosmetic tower skins and their trade values</p>
+</section>
+
+<div class="ad-zone">
+  <div class="ad-placeholder">[ AD UNIT — 728×90 ]</div>
+</div>
+
+<div class="toolbar">
+  <div class="search-box">
+    <span class="search-icon">⌕</span>
+    <input type="text" placeholder="Search skins..." id="searchInput" onkeyup="filterCards()">
+  </div>
+  <button class="filter-btn active" onclick="filterRarity('all', this)">ALL</button>
+  <button class="filter-btn" onclick="filterRarity('rare', this)">RARE</button>
+  <button class="filter-btn" onclick="filterRarity('epic', this)">EPIC</button>
+  <button class="filter-btn" onclick="filterRarity('legendary', this)">LEGENDARY</button>
+  <button class="filter-btn" onclick="filterRarity('mythical', this)">MYTHICAL</button>
+  <button class="filter-btn" onclick="filterRarity('secret', this)">SECRET</button>
+  <select class="sort-select">
+    <option>Sort: Value ↓</option>
+    <option>Sort: Value ↑</option>
+    <option>Sort: Demand</option>
+    <option>Sort: Rarest</option>
+  </select>
+</div>
+
+<section class="grid-section">
+  <div class="grid">
+
+    <div class="card" data-rarity="secret"><div class="card-image"><span class="rarity-badge">SECRET</span><span class="variant-badge">🎨</span><div class="card-icon">?</div><div class="exist-badge"><span>--</span> Exist</div></div><div class="card-info"><div class="card-name"><span class="placeholder"></span></div><div class="card-stats"><div class="stat-row"><span class="stat-label">Gems</span><span class="stat-value"><span class="placeholder"></span></span></div><div class="stat-row"><span class="stat-label">Demand</span><span class="stat-value"><span class="demand placeholder-demand"></span></span></div><div class="stat-row"><span class="stat-label">Trend</span><span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span></div></div></div></div>
+
+    <div class="card" data-rarity="mythical"><div class="card-image"><span class="rarity-badge">MYTHICAL</span><span class="variant-badge">🎨</span><div class="card-icon">?</div><div class="exist-badge"><span>--</span> Exist</div></div><div class="card-info"><div class="card-name"><span class="placeholder"></span></div><div class="card-stats"><div class="stat-row"><span class="stat-label">Gems</span><span class="stat-value"><span class="placeholder"></span></span></div><div class="stat-row"><span class="stat-label">Demand</span><span class="stat-value"><span class="demand placeholder-demand"></span></span></div><div class="stat-row"><span class="stat-label">Trend</span><span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span></div></div></div></div>
+
+    <div class="card" data-rarity="legendary"><div class="card-image"><span class="rarity-badge">LEGENDARY</span><span class="variant-badge">🎨</span><div class="card-icon">?</div><div class="exist-badge"><span>--</span> Exist</div></div><div class="card-info"><div class="card-name"><span class="placeholder"></span></div><div class="card-stats"><div class="stat-row"><span class="stat-label">Gems</span><span class="stat-value"><span class="placeholder"></span></span></div><div class="stat-row"><span class="stat-label">Demand</span><span class="stat-value"><span class="demand placeholder-demand"></span></span></div><div class="stat-row"><span class="stat-label">Trend</span><span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span></div></div></div></div>
+
+    <div class="card" data-rarity="epic"><div class="card-image"><span class="rarity-badge">EPIC</span><span class="variant-badge">🎨</span><div class="card-icon">?</div><div class="exist-badge"><span>--</span> Exist</div></div><div class="card-info"><div class="card-name"><span class="placeholder"></span></div><div class="card-stats"><div class="stat-row"><span class="stat-label">Gems</span><span class="stat-value"><span class="placeholder"></span></span></div><div class="stat-row"><span class="stat-label">Demand</span><span class="stat-value"><span class="demand placeholder-demand"></span></span></div><div class="stat-row"><span class="stat-label">Trend</span><span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span></div></div></div></div>
+
+    <div class="card" data-rarity="rare"><div class="card-image"><span class="rarity-badge">RARE</span><span class="variant-badge">🎨</span><div class="card-icon">?</div><div class="exist-badge"><span>--</span> Exist</div></div><div class="card-info"><div class="card-name"><span class="placeholder"></span></div><div class="card-stats"><div class="stat-row"><span class="stat-label">Gems</span><span class="stat-value"><span class="placeholder"></span></span></div><div class="stat-row"><span class="stat-label">Demand</span><span class="stat-value"><span class="demand placeholder-demand"></span></span></div><div class="stat-row"><span class="stat-label">Trend</span><span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span></div></div></div></div>
+
+    <div class="card-ad"><span class="ad-tag">AD</span><span>[ IN-FEED AD ]</span></div>
+
+    <div class="card" data-rarity="legendary"><div class="card-image"><span class="rarity-badge">LEGENDARY</span><span class="variant-badge">🎨</span><div class="card-icon">?</div><div class="exist-badge"><span>--</span> Exist</div></div><div class="card-info"><div class="card-name"><span class="placeholder"></span></div><div class="card-stats"><div class="stat-row"><span class="stat-label">Gems</span><span class="stat-value"><span class="placeholder"></span></span></div><div class="stat-row"><span class="stat-label">Demand</span><span class="stat-value"><span class="demand placeholder-demand"></span></span></div><div class="stat-row"><span class="stat-label">Trend</span><span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span></div></div></div></div>
+
+    <div class="card" data-rarity="epic"><div class="card-image"><span class="rarity-badge">EPIC</span><span class="variant-badge">🎨</span><div class="card-icon">?</div><div class="exist-badge"><span>--</span> Exist</div></div><div class="card-info"><div class="card-name"><span class="placeholder"></span></div><div class="card-stats"><div class="stat-row"><span class="stat-label">Gems</span><span class="stat-value"><span class="placeholder"></span></span></div><div class="stat-row"><span class="stat-label">Demand</span><span class="stat-value"><span class="demand placeholder-demand"></span></span></div><div class="stat-row"><span class="stat-label">Trend</span><span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span></div></div></div></div>
+
+  </div>
+</section>
+
+<div class="ad-zone">
+  <div class="ad-placeholder">[ AD UNIT — 728×90 ]</div>
+</div>
+
+<footer>
+  <span>© 2026 ZENITH VALUES | ALL RIGHTS RESERVED</span>
+  <div class="footer-links"><a href="#">Discord</a><a href="#">GitHub</a><a href="#">Contact</a></div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
