@@ -2,270 +2,1182 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zenith Values</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --cyan: #00fff0;
+    --cyan-dim: rgba(0, 255, 240, 0.15);
+    --cyan-glow: rgba(0, 255, 240, 0.4);
+    --bg: #060a10;
+    --card-bg: rgba(0, 30, 40, 0.5);
+    --surface: #0c1018;
+    --border: #0f2a30;
+    --text: #c0f0ee;
+    --text-dim: #5a8a88;
+    --pink: #ff2a6d;
+    --yellow: #f5c842;
+    --green: #00ff88;
+    --purple: #b44aff;
+  }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html { scroll-behavior: smooth; }
+
   body {
-    background-color: #0a0e14;
-    background-image:
-      linear-gradient(rgba(0, 255, 200, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 255, 200, 0.05) 1px, transparent 1px);
-    background-size: 25px 25px;
-    color: #fff;
-    font-family: 'VT323', monospace;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    overflow-x: hidden;
   }
 
+  /* SCANLINE OVERLAY */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.08) 2px,
+      rgba(0, 0, 0, 0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* GRID BG */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0, 255, 240, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 240, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ====== HEADER ====== */
   header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: linear-gradient(180deg, var(--bg), rgba(6, 10, 16, 0.95));
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+    padding: 0 24px;
+    height: 64px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 18px 30px;
-    border-bottom: 2px solid #1a1f2b;
-    position: relative;
+    justify-content: space-between;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
   }
 
   .menu-btn {
-    position: absolute;
-    left: 30px;
     background: none;
-    border: none;
-    color: #fff;
-    font-size: 26px;
+    border: 1px solid var(--border);
+    color: var(--cyan);
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 85% 100%, 0 100%);
+    transition: 0.2s;
+  }
+  .menu-btn:hover {
+    background: var(--cyan-dim);
+    box-shadow: 0 0 10px var(--cyan-glow);
   }
 
   .logo {
     font-family: 'Press Start 2P', monospace;
-    font-size: 18px;
-    letter-spacing: 4px;
-  }
-
-  main {
-    flex: 1;
-    padding: 70px 40px;
-    text-align: center;
-  }
-
-  h1 {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 38px;
-    margin-bottom: 14px;
+    font-size: 13px;
+    color: var(--cyan);
     letter-spacing: 3px;
+    text-shadow: 0 0 10px var(--cyan-glow);
   }
 
-  .subtitle {
-    font-size: 24px;
-    color: #c9c9c9;
-    letter-spacing: 2px;
-    margin-bottom: 40px;
+  .header-status {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-size: 13px;
+    color: var(--text-dim);
   }
 
-  .play-btn {
-    background: #fff;
-    color: #000;
-    border: none;
-    padding: 16px 38px;
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    box-shadow: 0 0 6px var(--green);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ====== HERO ====== */
+  .hero {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 60px 24px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero h1 {
     font-family: 'Press Start 2P', monospace;
-    font-size: 14px;
+    font-size: clamp(20px, 4vw, 36px);
+    color: #fff;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+    text-shadow: 0 0 20px rgba(0, 255, 240, 0.3);
+  }
+
+  .hero p {
+    font-size: 16px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+  }
+
+  .hero-btn {
+    display: inline-block;
+    background: transparent;
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    padding: 14px 32px;
     letter-spacing: 2px;
     cursor: pointer;
-    clip-path: polygon(8% 0, 100% 0, 92% 100%, 0 100%);
-    transition: transform 0.2s;
+    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    transition: 0.3s;
+    text-shadow: 0 0 6px var(--cyan-glow);
   }
-  .play-btn:hover { transform: scale(1.05); }
-
-  .cards {
-    margin-top: 70px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 35px;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
+  .hero-btn:hover {
+    background: var(--cyan);
+    color: var(--bg);
+    box-shadow: 0 0 30px var(--cyan-glow);
+    text-shadow: none;
   }
 
-  /* Cyberpunk HUD Card */
-  .card {
+  /* ====== TOOLBAR ====== */
+  .toolbar {
     position: relative;
-    padding: 30px 28px;
-    background: linear-gradient(135deg, rgba(0, 40, 50, 0.6), rgba(0, 20, 30, 0.4));
-    color: #b6fff5;
-    text-align: left;
-    clip-path: polygon(
-      0 15px, 15px 0,
-      calc(100% - 30px) 0, 100% 30px,
-      100% calc(100% - 15px), calc(100% - 15px) 100%,
-      30px 100%, 0 calc(100% - 30px)
-    );
-    transition: transform 0.25s ease;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
   }
 
-  .card::before {
+  .search-box {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+  }
+
+  .search-box input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
+    padding: 10px 14px 10px 38px;
+    outline: none;
+    transition: 0.3s;
+  }
+  .search-box input:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 10px var(--cyan-dim);
+  }
+  .search-box input::placeholder { color: var(--text-dim); }
+
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-dim);
+    font-size: 16px;
+  }
+
+  .filter-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: 0.2s;
+    letter-spacing: 1px;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--cyan);
+    color: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan-dim);
+  }
+
+  .sort-select {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    padding: 10px 14px;
+    outline: none;
+    cursor: pointer;
+  }
+  .sort-select:focus { border-color: var(--cyan); }
+
+  .item-count {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-left: auto;
+  }
+  .item-count span { color: var(--cyan); }
+
+  /* ====== AD ZONE ====== */
+  .ad-zone {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 12px 24px;
+  }
+
+  .ad-placeholder {
+    border: 1px dashed var(--border);
+    background: rgba(0, 20, 30, 0.3);
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 3px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ad-placeholder::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, transparent 30%, rgba(0, 255, 230, 0.08) 50%, transparent 70%);
-    pointer-events: none;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 8px,
+      rgba(0, 255, 240, 0.02) 8px,
+      rgba(0, 255, 240, 0.02) 16px
+    );
   }
 
-  .card-frame {
+  /* ====== ITEM GRID ====== */
+  .grid-section {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  /* ====== ITEM CARD ====== */
+  .card {
+    position: relative;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: 0.3s;
+    cursor: pointer;
+  }
+
+  /* Corner cuts */
+  .card::before {
+    content: "";
     position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
-  .card-frame svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-    filter: drop-shadow(0 0 6px #00fff0);
-  }
-
-  .card:hover { transform: translateY(-6px); }
-  .card:hover .card-frame svg {
-    filter: drop-shadow(0 0 12px #00fff0);
+    top: 0; right: 0;
+    width: 20px; height: 20px;
+    background: var(--bg);
+    clip-path: polygon(100% 0, 0 0, 100% 100%);
+    z-index: 3;
+    border-bottom: 1px solid var(--border);
+    border-left: 1px solid var(--border);
   }
 
-  .card h3 {
+  .card:hover {
+    border-color: var(--cyan);
+    transform: translateY(-4px);
+    box-shadow:
+      0 0 15px var(--cyan-dim),
+      inset 0 0 30px rgba(0, 255, 240, 0.03);
+  }
+
+  .card-image {
+    position: relative;
+    height: 180px;
+    background: linear-gradient(135deg, #1a0a2e 0%, #0d1b2a 50%, #0a1628 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Rarity color stripe at top of image */
+  .card-image::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    z-index: 2;
+  }
+
+  .card[data-rarity="common"] .card-image::before { background: #808080; }
+  .card[data-rarity="uncommon"] .card-image::before { background: #00ff88; }
+  .card[data-rarity="rare"] .card-image::before { background: #3a8aff; }
+  .card[data-rarity="epic"] .card-image::before { background: var(--purple); }
+  .card[data-rarity="legendary"] .card-image::before { background: var(--yellow); }
+  .card[data-rarity="mythical"] .card-image::before { background: var(--pink); }
+  .card[data-rarity="secret"] .card-image::before {
+    background: linear-gradient(90deg, var(--pink), var(--purple), var(--cyan));
+  }
+
+  /* Placeholder icon */
+  .card-icon {
+    width: 80px;
+    height: 80px;
+    border: 2px dashed var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    font-size: 28px;
+    opacity: 0.4;
+  }
+
+  /* Rarity badge */
+  .rarity-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
     font-family: 'Press Start 2P', monospace;
-    font-size: 14px;
-    color: #00fff0;
-    margin-bottom: 18px;
-    letter-spacing: 2px;
-    text-shadow: 0 0 8px rgba(0, 255, 240, 0.7);
+    font-size: 7px;
+    padding: 4px 8px;
+    letter-spacing: 1px;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid;
   }
 
-  .card p {
+  .card[data-rarity="common"] .rarity-badge { color: #808080; border-color: #808080; }
+  .card[data-rarity="uncommon"] .rarity-badge { color: #00ff88; border-color: #00ff88; }
+  .card[data-rarity="rare"] .rarity-badge { color: #3a8aff; border-color: #3a8aff; }
+  .card[data-rarity="epic"] .rarity-badge { color: var(--purple); border-color: var(--purple); }
+  .card[data-rarity="legendary"] .rarity-badge { color: var(--yellow); border-color: var(--yellow); }
+  .card[data-rarity="mythical"] .rarity-badge { color: var(--pink); border-color: var(--pink); }
+  .card[data-rarity="secret"] .rarity-badge { color: var(--cyan); border-color: var(--cyan); }
+
+  /* Variant badge */
+  .variant-badge {
+    position: absolute;
+    top: 10px;
+    right: 28px;
+    font-size: 16px;
+    z-index: 2;
+  }
+
+  /* Existence count in image */
+  .exist-badge {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    font-size: 11px;
+    color: var(--text-dim);
+    background: rgba(0, 0, 0, 0.6);
+    padding: 3px 8px;
+    z-index: 2;
+  }
+  .exist-badge span { color: var(--cyan); }
+
+  /* Card info */
+  .card-info {
+    padding: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  .card-name {
+    font-family: 'VT323', monospace;
     font-size: 20px;
-    line-height: 1.4;
-    color: #d0fffa;
+    color: #fff;
+    margin-bottom: 10px;
     letter-spacing: 1px;
   }
+  .card-name .placeholder {
+    display: block;
+    height: 14px;
+    width: 70%;
+    background: linear-gradient(90deg, var(--border), rgba(0, 255, 240, 0.08), var(--border));
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
 
-  .card-bars {
-    margin-top: 20px;
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .card-stats {
     display: flex;
     flex-direction: column;
     gap: 6px;
   }
-  .bar {
-    height: 6px;
-    background: rgba(0, 255, 240, 0.15);
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+  }
+
+  .stat-label { color: var(--text-dim); }
+
+  .stat-value {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .stat-value .placeholder {
+    display: inline-block;
+    height: 10px;
+    width: 60px;
+    background: linear-gradient(90deg, var(--border), rgba(0, 255, 240, 0.08), var(--border));
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  .demand {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    padding: 3px 8px;
+    letter-spacing: 1px;
+  }
+  .demand.placeholder-demand {
+    background: var(--border);
+    color: transparent;
+    width: 50px;
+    height: 16px;
+  }
+
+  .trend-up { color: var(--green); }
+  .trend-down { color: var(--pink); }
+  .trend-stable { color: var(--text-dim); }
+
+  .trend-arrow {
+    font-size: 14px;
+  }
+  .trend-arrow.placeholder-trend {
+    color: var(--border);
+  }
+
+  /* Card scan line on hover */
+  .card::after {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      180deg,
+      transparent 40%,
+      rgba(0, 255, 240, 0.04) 50%,
+      transparent 60%
+    );
+    transition: 0.6s;
+    pointer-events: none;
+  }
+  .card:hover::after { top: 100%; }
+
+  /* ====== NATIVE AD CARD ====== */
+  .card-ad {
+    background: rgba(0, 20, 30, 0.3);
+    border: 1px dashed var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 280px;
     position: relative;
     overflow: hidden;
   }
-  .bar::after {
+  .card-ad::before {
     content: "";
     position: absolute;
-    top: 0; left: 0;
-    height: 100%;
-    background: #00fff0;
-    box-shadow: 0 0 8px #00fff0;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent, transparent 8px,
+      rgba(0, 255, 240, 0.015) 8px,
+      rgba(0, 255, 240, 0.015) 16px
+    );
   }
-  .bar:nth-child(1)::after { width: 85%; }
-  .bar:nth-child(2)::after { width: 60%; }
-  .bar:nth-child(3)::after { width: 92%; }
-
-  footer {
-    text-align: center;
-    padding: 22px;
-    border-top: 2px solid #1a1f2b;
-    font-size: 18px;
+  .card-ad span {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 3px;
+    z-index: 1;
+  }
+  .card-ad .ad-tag {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--border);
+    position: absolute;
+    top: 8px;
+    right: 10px;
     letter-spacing: 2px;
-    color: #aaa;
   }
 
-  @media (max-width: 600px) {
-    h1 { font-size: 24px; }
-    .subtitle { font-size: 18px; }
+  /* ====== FOOTER ====== */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 20px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 20px;
+  }
+  .footer-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: 0.2s;
+    letter-spacing: 1px;
+  }
+  .footer-links a:hover { color: var(--cyan); }
+
+  /* ====== SIDEBAR ====== */
+  .sidebar {
+    position: fixed;
+    top: 0; left: -280px;
+    width: 280px;
+    height: 100%;
+    background: var(--bg);
+    border-right: 1px solid var(--border);
+    z-index: 200;
+    transition: left 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+  .sidebar.open { left: 0; }
+
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-header span {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 22px;
+    cursor: pointer;
+  }
+  .close-btn:hover { color: var(--pink); }
+
+  .sidebar-nav {
+    list-style: none;
+    padding: 12px 0;
+    flex: 1;
+  }
+  .sidebar-nav li a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 1px;
+    border-left: 3px solid transparent;
+    transition: 0.2s;
+  }
+  .sidebar-nav li a:hover {
+    color: var(--cyan);
+    background: var(--cyan-dim);
+    border-left-color: var(--cyan);
+  }
+  .sidebar-nav li a .nav-icon { font-size: 18px; }
+
+  .sidebar-footer {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 150;
+  }
+  .overlay.show { display: block; }
+
+  /* ====== SCROLLBAR ====== */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--cyan); }
+
+  /* ====== RESPONSIVE ====== */
+  @media (max-width: 768px) {
+    .header-status { display: none; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+    .card-image { height: 130px; }
+    .card-icon { width: 50px; height: 50px; font-size: 20px; }
+    .card-info { padding: 10px; }
+    .card-name { font-size: 16px; }
+    .toolbar { gap: 8px; }
+    .hero { padding: 40px 16px 28px; }
+    .hero h1 { font-size: 18px; }
+    .item-count { display: none; }
+  }
+
+  @media (max-width: 420px) {
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .rarity-badge { font-size: 6px; padding: 3px 5px; }
+    .exist-badge { font-size: 9px; }
+    .stat-row { font-size: 11px; }
   }
 </style>
 </head>
 <body>
 
+<!-- SIDEBAR -->
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <span>MENU</span>
+    <button class="close-btn" onclick="toggleSidebar()">✕</button>
+  </div>
+  <ul class="sidebar-nav">
+    <li><a href="#"><span class="nav-icon">⬡</span> All Items</a></li>
+    <li><a href="#"><span class="nav-icon">⚔</span> Towers</a></li>
+    <li><a href="#"><span class="nav-icon">★</span> Pets</a></li>
+    <li><a href="#"><span class="nav-icon">◈</span> Skins</a></li>
+    <li><a href="#"><span class="nav-icon">⚡</span> Enchants</a></li>
+    <li><a href="#"><span class="nav-icon">⇅</span> Trade Calc</a></li>
+    <li><a href="#"><span class="nav-icon">📈</span> Trending</a></li>
+    <li><a href="#"><span class="nav-icon">🔥</span> Top Value</a></li>
+    <li><a href="#"><span class="nav-icon">💀</span> Dying Items</a></li>
+  </ul>
+  <div class="sidebar-footer">
+    ZENITH VALUES v0.1.0
+  </div>
+</aside>
+
+<!-- HEADER -->
 <header>
-  <button class="menu-btn">☰</button>
-  <div class="logo">ZENITH VALUES</div>
+  <div class="header-left">
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    <div class="logo">ZENITH VALUES</div>
+  </div>
+  <div class="header-status">
+    <div class="status-dot"></div>
+    <span>LIVE</span>
+    <span>|</span>
+    <span>--- items tracked</span>
+  </div>
 </header>
 
-<main>
+<!-- HERO -->
+<section class="hero">
   <h1>Ball Tower Defense</h1>
-  <p class="subtitle">Strategic gameplay with endless possibilities</p>
-  <button class="play-btn">PLAY NOW</button>
+  <p>Strategic gameplay with endless possibilities</p>
+  <button class="hero-btn">PLAY NOW</button>
+</section>
 
-  <div class="cards">
+<!-- TOP AD -->
+<div class="ad-zone">
+  <div class="ad-placeholder">[ AD UNIT — 728×90 ]</div>
+</div>
 
-    <div class="card">
-      <div class="card-frame">
-        <svg viewBox="0 0 300 220" preserveAspectRatio="none">
-          <polygon points="0,15 15,0 270,0 300,30 300,205 285,220 30,220 0,190"
-                   fill="none" stroke="#00fff0" stroke-width="2"/>
-          <polyline points="20,5 5,20" stroke="#00fff0" stroke-width="3" fill="none"/>
-          <polyline points="280,215 295,200" stroke="#00fff0" stroke-width="3" fill="none"/>
-          <line x1="60" y1="0" x2="80" y2="0" stroke="#00fff0" stroke-width="4"/>
-          <line x1="220" y1="220" x2="240" y2="220" stroke="#00fff0" stroke-width="4"/>
-        </svg>
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="search-box">
+    <span class="search-icon">⌕</span>
+    <input type="text" placeholder="Search items...">
+  </div>
+  <button class="filter-btn active">ALL</button>
+  <button class="filter-btn">COMMON</button>
+  <button class="filter-btn">RARE</button>
+  <button class="filter-btn">EPIC</button>
+  <button class="filter-btn">LEGENDARY</button>
+  <button class="filter-btn">MYTHICAL</button>
+  <button class="filter-btn">SECRET</button>
+  <select class="sort-select">
+    <option>Sort: Value ↓</option>
+    <option>Sort: Value ↑</option>
+    <option>Sort: Demand</option>
+    <option>Sort: Rarest</option>
+    <option>Sort: Trending</option>
+  </select>
+  <div class="item-count">Showing <span>--</span> of <span>--</span></div>
+</div>
+
+<!-- ITEM GRID -->
+<section class="grid-section">
+  <div class="grid">
+
+    <!-- PLACEHOLDER CARDS -->
+    <div class="card" data-rarity="secret">
+      <div class="card-image">
+        <span class="rarity-badge">SECRET</span>
+        <span class="variant-badge">✦</span>
+        <div class="card-icon">?</div>
+        <div class="exist-badge"><span>--</span> Exist</div>
       </div>
-      <h3>STRATEGY</h3>
-      <p>Master complex tower placements and upgrade paths to defend against endless waves.</p>
-      <div class="card-bars">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
+      <div class="card-info">
+        <div class="card-name"><span class="placeholder"></span></div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <span class="stat-label">Gems</span>
+            <span class="stat-value"><span class="placeholder"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Demand</span>
+            <span class="stat-value"><span class="demand placeholder-demand"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Trend</span>
+            <span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-frame">
-        <svg viewBox="0 0 300 220" preserveAspectRatio="none">
-          <polygon points="0,15 15,0 270,0 300,30 300,205 285,220 30,220 0,190"
-                   fill="none" stroke="#00fff0" stroke-width="2"/>
-          <polyline points="20,5 5,20" stroke="#00fff0" stroke-width="3" fill="none"/>
-          <polyline points="280,215 295,200" stroke="#00fff0" stroke-width="3" fill="none"/>
-          <line x1="60" y1="0" x2="80" y2="0" stroke="#00fff0" stroke-width="4"/>
-          <line x1="220" y1="220" x2="240" y2="220" stroke="#00fff0" stroke-width="4"/>
-        </svg>
+    <div class="card" data-rarity="mythical">
+      <div class="card-image">
+        <span class="rarity-badge">MYTHICAL</span>
+        <span class="variant-badge">✦</span>
+        <div class="card-icon">?</div>
+        <div class="exist-badge"><span>--</span> Exist</div>
       </div>
-      <h3>CHALLENGES</h3>
-      <p>Face increasingly difficult enemies with unique abilities and tactical requirements.</p>
-      <div class="card-bars">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
+      <div class="card-info">
+        <div class="card-name"><span class="placeholder"></span></div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <span class="stat-label">Gems</span>
+            <span class="stat-value"><span class="placeholder"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Demand</span>
+            <span class="stat-value"><span class="demand placeholder-demand"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Trend</span>
+            <span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-frame">
-        <svg viewBox="0 0 300 220" preserveAspectRatio="none">
-          <polygon points="0,15 15,0 270,0 300,30 300,205 285,220 30,220 0,190"
-                   fill="none" stroke="#00fff0" stroke-width="2"/>
-          <polyline points="20,5 5,20" stroke="#00fff0" stroke-width="3" fill="none"/>
-          <polyline points="280,215 295,200" stroke="#00fff0" stroke-width="3" fill="none"/>
-          <line x1="60" y1="0" x2="80" y2="0" stroke="#00fff0" stroke-width="4"/>
-          <line x1="220" y1="220" x2="240" y2="220" stroke="#00fff0" stroke-width="4"/>
-        </svg>
+    <div class="card" data-rarity="legendary">
+      <div class="card-image">
+        <span class="rarity-badge">LEGENDARY</span>
+        <div class="card-icon">?</div>
+        <div class="exist-badge"><span>--</span> Exist</div>
       </div>
-      <h3>REWARDS</h3>
-      <p>Unlock powerful upgrades and rare items as you progress through levels.</p>
-      <div class="card-bars">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
+      <div class="card-info">
+        <div class="card-name"><span class="placeholder"></span></div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <span class="stat-label">Gems</span>
+            <span class="stat-value"><span class="placeholder"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Demand</span>
+            <span class="stat-value"><span class="demand placeholder-demand"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Trend</span>
+            <span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-rarity="epic">
+      <div class="card-image">
+        <span class="rarity-badge">EPIC</span>
+        <div class="card-icon">?</div>
+        <div class="exist-badge"><span>--</span> Exist</div>
+      </div>
+      <div class="card-info">
+        <div class="card-name"><span class="placeholder"></span></div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <span class="stat-label">Gems</span>
+            <span class="stat-value"><span class="placeholder"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Demand</span>
+            <span class="stat-value"><span class="demand placeholder-demand"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Trend</span>
+            <span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-rarity="rare">
+      <div class="card-image">
+        <span class="rarity-badge">RARE</span>
+        <div class="card-icon">?</div>
+        <div class="exist-badge"><span>--</span> Exist</div>
+      </div>
+      <div class="card-info">
+        <div class="card-name"><span class="placeholder"></span></div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <span class="stat-label">Gems</span>
+            <span class="stat-value"><span class="placeholder"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Demand</span>
+            <span class="stat-value"><span class="demand placeholder-demand"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Trend</span>
+            <span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NATIVE AD CARD -->
+    <div class="card-ad">
+      <span class="ad-tag">AD</span>
+      <span>[ IN-FEED AD ]</span>
+    </div>
+
+    <div class="card" data-rarity="uncommon">
+      <div class="card-image">
+        <span class="rarity-badge">UNCOMMON</span>
+        <div class="card-icon">?</div>
+        <div class="exist-badge"><span>--</span> Exist</div>
+      </div>
+      <div class="card-info">
+        <div class="card-name"><span class="placeholder"></span></div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <span class="stat-label">Gems</span>
+            <span class="stat-value"><span class="placeholder"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Demand</span>
+            <span class="stat-value"><span class="demand placeholder-demand"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Trend</span>
+            <span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-rarity="common">
+      <div class="card-image">
+        <span class="rarity-badge">COMMON</span>
+        <div class="card-icon">?</div>
+        <div class="exist-badge"><span>--</span> Exist</div>
+      </div>
+      <div class="card-info">
+        <div class="card-name"><span class="placeholder"></span></div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <span class="stat-label">Gems</span>
+            <span class="stat-value"><span class="placeholder"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Demand</span>
+            <span class="stat-value"><span class="demand placeholder-demand"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Trend</span>
+            <span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-rarity="legendary">
+      <div class="card-image">
+        <span class="rarity-badge">LEGENDARY</span>
+        <span class="variant-badge">✦</span>
+        <div class="card-icon">?</div>
+        <div class="exist-badge"><span>--</span> Exist</div>
+      </div>
+      <div class="card-info">
+        <div class="card-name"><span class="placeholder"></span></div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <span class="stat-label">Gems</span>
+            <span class="stat-value"><span class="placeholder"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Demand</span>
+            <span class="stat-value"><span class="demand placeholder-demand"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Trend</span>
+            <span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-rarity="epic">
+      <div class="card-image">
+        <span class="rarity-badge">EPIC</span>
+        <div class="card-icon">?</div>
+        <div class="exist-badge"><span>--</span> Exist</div>
+      </div>
+      <div class="card-info">
+        <div class="card-name"><span class="placeholder"></span></div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <span class="stat-label">Gems</span>
+            <span class="stat-value"><span class="placeholder"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Demand</span>
+            <span class="stat-value"><span class="demand placeholder-demand"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Trend</span>
+            <span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-rarity="mythical">
+      <div class="card-image">
+        <span class="rarity-badge">MYTHICAL</span>
+        <div class="card-icon">?</div>
+        <div class="exist-badge"><span>--</span> Exist</div>
+      </div>
+      <div class="card-info">
+        <div class="card-name"><span class="placeholder"></span></div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <span class="stat-label">Gems</span>
+            <span class="stat-value"><span class="placeholder"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Demand</span>
+            <span class="stat-value"><span class="demand placeholder-demand"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Trend</span>
+            <span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-rarity="rare">
+      <div class="card-image">
+        <span class="rarity-badge">RARE</span>
+        <span class="variant-badge">✦</span>
+        <div class="card-icon">?</div>
+        <div class="exist-badge"><span>--</span> Exist</div>
+      </div>
+      <div class="card-info">
+        <div class="card-name"><span class="placeholder"></span></div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <span class="stat-label">Gems</span>
+            <span class="stat-value"><span class="placeholder"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Demand</span>
+            <span class="stat-value"><span class="demand placeholder-demand"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Trend</span>
+            <span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NATIVE AD CARD 2 -->
+    <div class="card-ad">
+      <span class="ad-tag">AD</span>
+      <span>[ IN-FEED AD ]</span>
+    </div>
+
+    <div class="card" data-rarity="secret">
+      <div class="card-image">
+        <span class="rarity-badge">SECRET</span>
+        <div class="card-icon">?</div>
+        <div class="exist-badge"><span>--</span> Exist</div>
+      </div>
+      <div class="card-info">
+        <div class="card-name"><span class="placeholder"></span></div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <span class="stat-label">Gems</span>
+            <span class="stat-value"><span class="placeholder"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Demand</span>
+            <span class="stat-value"><span class="demand placeholder-demand"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Trend</span>
+            <span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-rarity="uncommon">
+      <div class="card-image">
+        <span class="rarity-badge">UNCOMMON</span>
+        <div class="card-icon">?</div>
+        <div class="exist-badge"><span>--</span> Exist</div>
+      </div>
+      <div class="card-info">
+        <div class="card-name"><span class="placeholder"></span></div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <span class="stat-label">Gems</span>
+            <span class="stat-value"><span class="placeholder"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Demand</span>
+            <span class="stat-value"><span class="demand placeholder-demand"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Trend</span>
+            <span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-rarity="legendary">
+      <div class="card-image">
+        <span class="rarity-badge">LEGENDARY</span>
+        <div class="card-icon">?</div>
+        <div class="exist-badge"><span>--</span> Exist</div>
+      </div>
+      <div class="card-info">
+        <div class="card-name"><span class="placeholder"></span></div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <span class="stat-label">Gems</span>
+            <span class="stat-value"><span class="placeholder"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Demand</span>
+            <span class="stat-value"><span class="demand placeholder-demand"></span></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Trend</span>
+            <span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span>
+          </div>
+        </div>
       </div>
     </div>
 
   </div>
-</main>
+</section>
 
+<!-- BOTTOM AD -->
+<div class="ad-zone">
+  <div class="ad-placeholder">[ AD UNIT — 728×90 ]</div>
+</div>
+
+<!-- FOOTER -->
 <footer>
-  © 2026 ZENITH VALUES | ALL RIGHTS RESERVED
+  <span>© 2026 ZENITH VALUES | ALL RIGHTS RESERVED</span>
+  <div class="footer-links">
+    <a href="#">Discord</a>
+    <a href="#">GitHub</a>
+    <a href="#">Contact</a>
+  </div>
 </footer>
+
+<script>
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('show');
+  }
+
+  // Filter button toggle
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+</script>
 
 </body>
 </html>
