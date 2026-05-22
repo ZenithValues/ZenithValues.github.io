@@ -1,200 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zenith Values — Towers</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BTD Zenith — Values & Wiki | Ball Tower Defense</title>
+  <meta name="description" content="The ultimate Ball Tower Defense value list, wiki, tier list, and trading calculator. All units, forge buffs, materials, and more.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Inline font fallback */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap');
+  </style>
 </head>
 <body>
 
-<!-- SIDEBAR -->
-<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <span>MENU</span>
-    <button class="close-btn" onclick="toggleSidebar()">✕</button>
-  </div>
-  <ul class="sidebar-nav">
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <div class="logo-icon">Z</div>
+      <span>BTD Zenith</span>
+    </a>
+    <button class="nav-hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="pages/values.html">Values</a></li>
+      <li><a href="pages/tierlist.html">Tier List</a></li>
+      <li><a href="pages/calculator.html">Calculator</a></li>
+      <li><a href="pages/forge.html">Forge</a></li>
+      <li><a href="pages/materials.html">Materials</a></li>
+      <li><a href="pages/guides.html">Guides</a></li>
+    </ul>
+  </nav>
 
-    <!-- TOWERS DROPDOWN -->
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" onclick="toggleDropdown(event, this)">
-        <span class="nav-icon">⚔</span> Towers <span class="arrow">▾</span>
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+
+    <!-- HERO -->
+    <section class="hero fade-in">
+      <h1>BTD Zenith <span>— Values & Wiki</span></h1>
+      <p>The ultimate resource for Ball Tower Defense. Trade values, unit stats, tier lists, forge buffs, and everything in between.</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="number" id="total-units">—</div>
+          <div class="label">Total Units</div>
+        </div>
+        <div class="hero-stat">
+          <div class="number">8</div>
+          <div class="label">Rarities</div>
+        </div>
+        <div class="hero-stat">
+          <div class="number">16</div>
+          <div class="label">Forge Buffs</div>
+        </div>
+        <div class="hero-stat">
+          <div class="number">8</div>
+          <div class="label">Materials</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEARCH -->
+    <div class="search-container">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="homeSearch" placeholder="Search units, rarities, abilities..." oninput="homeSearchHandler(this.value)">
+    </div>
+    <div id="searchResults" class="hidden" style="max-width:500px;margin:0 auto 2rem;"></div>
+
+    <!-- AD SPACE -->
+    <div class="ad-space">
+      <!-- Ad Banner — Replace with AdSense code -->
+      AD SPACE — Insert Google AdSense or Ad Network code here
+    </div>
+
+    <!-- RARITY NAVIGATION -->
+    <div class="section-header">
+      <h2>Browse by Rarity</h2>
+      <span class="count">8 tiers</span>
+    </div>
+    <div class="rarity-nav" id="rarityNav"></div>
+
+    <!-- QUICK VALUE OVERVIEW -->
+    <div class="section-header">
+      <h2>Top Value Units</h2>
+      <a href="pages/values.html" style="font-size:0.85rem;color:var(--text-muted);">View All →</a>
+    </div>
+    <div class="value-table-container">
+      <table class="value-table" id="topValuesTable">
+        <thead>
+          <tr>
+            <th>Unit</th>
+            <th>Rarity</th>
+            <th>Gem Value</th>
+            <th>Demand</th>
+            <th>Tier</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- AD SPACE -->
+    <div class="ad-space">
+      AD SPACE — Insert Google AdSense or Ad Network code here
+    </div>
+
+    <!-- QUICK LINKS -->
+    <div class="section-header mt-3">
+      <h2>Quick Links</h2>
+    </div>
+    <div class="rarity-nav">
+      <a href="pages/values.html" class="rarity-nav-card" style="border-left-color:var(--text-primary);">
+        <div class="rarity-name">📊 Full Value List</div>
+        <div class="rarity-count">All units with trade values</div>
       </a>
-      <ul class="dropdown-menu">
-        <li><a href="index.html#all">All Towers</a></li>
-        <li><a href="index.html#common" class="rarity-link common">Common</a></li>
-        <li><a href="index.html#uncommon" class="rarity-link uncommon">Uncommon</a></li>
-        <li><a href="index.html#rare" class="rarity-link rare">Rare</a></li>
-        <li><a href="index.html#epic" class="rarity-link epic">Epic</a></li>
-        <li><a href="index.html#legendary" class="rarity-link legendary">Legendary</a></li>
-        <li><a href="index.html#mythical" class="rarity-link mythical">Mythical</a></li>
-        <li><a href="index.html#secret" class="rarity-link secret">Secret</a></li>
-      </ul>
-    </li>
+      <a href="pages/tierlist.html" class="rarity-nav-card" style="border-left-color:var(--text-primary);">
+        <div class="rarity-name">🏆 Tier List</div>
+        <div class="rarity-count">SSS to D rankings</div>
+      </a>
+      <a href="pages/calculator.html" class="rarity-nav-card" style="border-left-color:var(--text-primary);">
+        <div class="rarity-name">⚖️ Trade Calculator</div>
+        <div class="rarity-count">Check if trades are fair</div>
+      </a>
+      <a href="pages/forge.html" class="rarity-nav-card" style="border-left-color:var(--text-primary);">
+        <div class="rarity-name">🔨 Forge & Buffs</div>
+        <div class="rarity-count">All forge buffs & chances</div>
+      </a>
+      <a href="pages/materials.html" class="rarity-nav-card" style="border-left-color:var(--text-primary);">
+        <div class="rarity-name">🧱 Materials</div>
+        <div class="rarity-count">Where to find materials</div>
+      </a>
+      <a href="pages/guides.html" class="rarity-nav-card" style="border-left-color:var(--text-primary);">
+        <div class="rarity-name">📖 Guides</div>
+        <div class="rarity-count">Tips, strategies, and more</div>
+      </a>
+    </div>
 
-    <li><a href="skins.html"><span class="nav-icon">◈</span> Skins</a></li>
-    <li><a href="enchants.html"><span class="nav-icon">⚡</span> Enchants</a></li>
-    <li><a href="tradecalc.html"><span class="nav-icon">⇅</span> Trade Calc</a></li>
+  </div>
 
-  </ul>
-  <div class="sidebar-footer">
-    ZENITH VALUES v0.1.0
-  </div>
-</aside>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p><strong>BTD Zenith</strong> — Values & Wiki for Ball Tower Defense (Roblox)</p>
+    <p style="margin-top:6px;">Not affiliated with Roblox or Ball Tower Defense. Fan-made resource.</p>
+    <p style="margin-top:6px;">© 2025-2026 BTD Zenith. All rights reserved.</p>
+  </footer>
 
-<!-- HEADER -->
-<header>
-  <div class="header-left">
-    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-    <div class="logo">ZENITH VALUES</div>
-  </div>
-  <div class="header-status">
-    <div class="status-dot"></div>
-    <span>LIVE</span>
-    <span>|</span>
-    <span>--- items tracked</span>
-  </div>
-</header>
+  <script src="data.js"></script>
+  <script>
+    // Populate total units
+    document.getElementById('total-units').textContent = UNITS.length;
 
-<!-- HERO -->
-<section class="hero">
-  <h1>Ball Tower Defense</h1>
-  <p>Strategic gameplay with endless possibilities</p>
-  <button class="hero-btn">PLAY NOW</button>
-</section>
+    // Populate rarity nav
+    const rarityNav = document.getElementById('rarityNav');
+    RARITY_ORDER.forEach(r => {
+      const count = getUnitsByRarity(r).length;
+      const card = document.createElement('a');
+      card.href = `pages/values.html#${r.toLowerCase()}`;
+      card.className = `rarity-nav-card ${r.toLowerCase()}`;
+      card.innerHTML = `
+        <div class="rarity-name">${r}</div>
+        <div class="rarity-count">${count} units</div>
+      `;
+      rarityNav.appendChild(card);
+    });
 
-<!-- TOP AD -->
-<div class="ad-zone">
-  <div class="ad-placeholder">[ AD UNIT — 728×90 ]</div>
-</div>
+    // Top values table
+    const topUnits = [...UNITS].sort((a, b) => b.gemValue - a.gemValue).slice(0, 10);
+    const tbody = document.querySelector('#topValuesTable tbody');
+    topUnits.forEach(u => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>
+          <div class="unit-name-cell">
+            <div class="unit-icon" style="color:var(--${u.rarity.toLowerCase()})">${u.name[0]}</div>
+            <span>${u.name}</span>
+          </div>
+        </td>
+        <td><span class="rarity-badge ${u.rarity.toLowerCase()}">${u.rarity}</span></td>
+        <td style="font-family:var(--font-mono);font-weight:600;">${formatValue(u.gemValue)} 💎</td>
+        <td>
+          <div class="demand-bar">
+            ${Array.from({length:10}, (_,i) => `<div class="demand-dot ${i < u.demand ? 'filled' : ''}"></div>`).join('')}
+          </div>
+        </td>
+        <td><strong>${u.tier}</strong></td>
+      `;
+      tr.style.cursor = 'pointer';
+      tr.onclick = () => window.location.href = `pages/unit.html?name=${encodeURIComponent(u.name)}`;
+      tbody.appendChild(tr);
+    });
 
-<!-- TOOLBAR -->
-<div class="toolbar">
-  <div class="search-box">
-    <span class="search-icon">⌕</span>
-    <input type="text" placeholder="Search towers..." id="searchInput" onkeyup="filterCards()">
-  </div>
-  <button class="filter-btn active" onclick="filterRarity('all', this)">ALL</button>
-  <button class="filter-btn" onclick="filterRarity('common', this)">COMMON</button>
-  <button class="filter-btn" onclick="filterRarity('uncommon', this)">UNCOMMON</button>
-  <button class="filter-btn" onclick="filterRarity('rare', this)">RARE</button>
-  <button class="filter-btn" onclick="filterRarity('epic', this)">EPIC</button>
-  <button class="filter-btn" onclick="filterRarity('legendary', this)">LEGENDARY</button>
-  <button class="filter-btn" onclick="filterRarity('mythical', this)">MYTHICAL</button>
-  <button class="filter-btn" onclick="filterRarity('secret', this)">SECRET</button>
-  <select class="sort-select">
-    <option>Sort: Value ↓</option>
-    <option>Sort: Value ↑</option>
-    <option>Sort: Demand</option>
-    <option>Sort: Rarest</option>
-  </select>
-</div>
+    // Search
+    function homeSearchHandler(val) {
+      const results = document.getElementById('searchResults');
+      if (!val || val.length < 2) {
+        results.classList.add('hidden');
+        results.innerHTML = '';
+        return;
+      }
+      const found = searchUnits(val).slice(0, 8);
+      if (found.length === 0) {
+        results.classList.remove('hidden');
+        results.innerHTML = '<div style="padding:12px;color:var(--text-muted);text-align:center;">No units found</div>';
+        return;
+      }
+      results.classList.remove('hidden');
+      results.innerHTML = found.map(u => `
+        <a href="pages/unit.html?name=${encodeURIComponent(u.name)}" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);transition:background 0.2s;" onmouseover="this.style.background='var(--bg-hover)'" onmouseout="this.style.background='transparent'">
+          <div class="unit-icon" style="color:var(--${u.rarity.toLowerCase()});width:28px;height:28px;font-size:12px;">${u.name[0]}</div>
+          <div style="flex:1;">
+            <div style="font-weight:600;font-size:0.9rem;">${u.name}</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">${u.rarity} · ${formatValue(u.gemValue)} 💎</div>
+          </div>
+          <span class="rarity-badge ${u.rarity.toLowerCase()}" style="font-size:0.65rem;">${u.rarity}</span>
+        </a>
+      `).join('');
+      results.style.background = 'var(--bg-card)';
+      results.style.border = '1px solid var(--border)';
+      results.style.borderRadius = 'var(--radius-lg)';
+      results.style.overflow = 'hidden';
+    }
+  </script>
 
-<!-- ====== TOWERS BY RARITY ====== -->
-
-<!-- SECRET -->
-<section class="grid-section" id="secret">
-  <div class="rarity-divider secret-divider">
-    <span class="rarity-divider-text secret-text">SECRET</span>
-    <div class="rarity-divider-line secret-line"></div>
-  </div>
-  <div class="grid" data-rarity-group="secret">
-    <div class="card" data-rarity="secret"><div class="card-image"><span class="rarity-badge">SECRET</span><span class="variant-badge">✦</span><div class="card-icon">?</div><div class="exist-badge"><span>--</span> Exist</div></div><div class="card-info"><div class="card-name"><span class="placeholder"></span></div><div class="card-stats"><div class="stat-row"><span class="stat-label">Gems</span><span class="stat-value"><span class="placeholder"></span></span></div><div class="stat-row"><span class="stat-label">Demand</span><span class="stat-value"><span class="demand placeholder-demand"></span></span></div><div class="stat-row"><span class="stat-label">Trend</span><span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span></div></div></div></div>
-  </div>
-</section>
-
-<!-- MYTHICAL -->
-<section class="grid-section" id="mythical">
-  <div class="rarity-divider mythical-divider">
-    <span class="rarity-divider-text mythical-text">MYTHICAL</span>
-    <div class="rarity-divider-line mythical-line"></div>
-  </div>
-  <div class="grid" data-rarity-group="mythical">
-    <div class="card" data-rarity="mythical"><div class="card-image"><span class="rarity-badge">MYTHICAL</span><span class="variant-badge">✦</span><div class="card-icon">?</div><div class="exist-badge"><span>--</span> Exist</div></div><div class="card-info"><div class="card-name"><span class="placeholder"></span></div><div class="card-stats"><div class="stat-row"><span class="stat-label">Gems</span><span class="stat-value"><span class="placeholder"></span></span></div><div class="stat-row"><span class="stat-label">Demand</span><span class="stat-value"><span class="demand placeholder-demand"></span></span></div><div class="stat-row"><span class="stat-label">Trend</span><span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span></div></div></div></div>
-    <div class="card" data-rarity="mythical"><div class="card-image"><span class="rarity-badge">MYTHICAL</span><div class="card-icon">?</div><div class="exist-badge"><span>--</span> Exist</div></div><div class="card-info"><div class="card-name"><span class="placeholder"></span></div><div class="card-stats"><div class="stat-row"><span class="stat-label">Gems</span><span class="stat-value"><span class="placeholder"></span></span></div><div class="stat-row"><span class="stat-label">Demand</span><span class="stat-value"><span class="demand placeholder-demand"></span></span></div><div class="stat-row"><span class="stat-label">Trend</span><span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span></div></div></div></div>
-  </div>
-</section>
-
-<!-- LEGENDARY -->
-<section class="grid-section" id="legendary">
-  <div class="rarity-divider legendary-divider">
-    <span class="rarity-divider-text legendary-text">LEGENDARY</span>
-    <div class="rarity-divider-line legendary-line"></div>
-  </div>
-  <div class="grid" data-rarity-group="legendary">
-    <div class="card" data-rarity="legendary"><div class="card-image"><span class="rarity-badge">LEGENDARY</span><span class="variant-badge">✦</span><div class="card-icon">?</div><div class="exist-badge"><span>--</span> Exist</div></div><div class="card-info"><div class="card-name"><span class="placeholder"></span></div><div class="card-stats"><div class="stat-row"><span class="stat-label">Gems</span><span class="stat-value"><span class="placeholder"></span></span></div><div class="stat-row"><span class="stat-label">Demand</span><span class="stat-value"><span class="demand placeholder-demand"></span></span></div><div class="stat-row"><span class="stat-label">Trend</span><span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span></div></div></div></div>
-    <div class="card" data-rarity="legendary"><div class="card-image"><span class="rarity-badge">LEGENDARY</span><div class="card-icon">?</div><div class="exist-badge"><span>--</span> Exist</div></div><div class="card-info"><div class="card-name"><span class="placeholder"></span></div><div class="card-stats"><div class="stat-row"><span class="stat-label">Gems</span><span class="stat-value"><span class="placeholder"></span></span></div><div class="stat-row"><span class="stat-label">Demand</span><span class="stat-value"><span class="demand placeholder-demand"></span></span></div><div class="stat-row"><span class="stat-label">Trend</span><span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span></div></div></div></div>
-  </div>
-</section>
-
-<!-- EPIC -->
-<section class="grid-section" id="epic">
-  <div class="rarity-divider epic-divider">
-    <span class="rarity-divider-text epic-text">EPIC</span>
-    <div class="rarity-divider-line epic-line"></div>
-  </div>
-  <div class="grid" data-rarity-group="epic">
-    <div class="card" data-rarity="epic"><div class="card-image"><span class="rarity-badge">EPIC</span><div class="card-icon">?</div><div class="exist-badge"><span>--</span> Exist</div></div><div class="card-info"><div class="card-name"><span class="placeholder"></span></div><div class="card-stats"><div class="stat-row"><span class="stat-label">Gems</span><span class="stat-value"><span class="placeholder"></span></span></div><div class="stat-row"><span class="stat-label">Demand</span><span class="stat-value"><span class="demand placeholder-demand"></span></span></div><div class="stat-row"><span class="stat-label">Trend</span><span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span></div></div></div></div>
-    <div class="card" data-rarity="epic"><div class="card-image"><span class="rarity-badge">EPIC</span><div class="card-icon">?</div><div class="exist-badge"><span>--</span> Exist</div></div><div class="card-info"><div class="card-name"><span class="placeholder"></span></div><div class="card-stats"><div class="stat-row"><span class="stat-label">Gems</span><span class="stat-value"><span class="placeholder"></span></span></div><div class="stat-row"><span class="stat-label">Demand</span><span class="stat-value"><span class="demand placeholder-demand"></span></span></div><div class="stat-row"><span class="stat-label">Trend</span><span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span></div></div></div></div>
-  </div>
-</section>
-
-<!-- IN-FEED AD -->
-<div class="ad-zone">
-  <div class="ad-placeholder">[ AD UNIT — IN-FEED ]</div>
-</div>
-
-<!-- RARE -->
-<section class="grid-section" id="rare">
-  <div class="rarity-divider rare-divider">
-    <span class="rarity-divider-text rare-text">RARE</span>
-    <div class="rarity-divider-line rare-line"></div>
-  </div>
-  <div class="grid" data-rarity-group="rare">
-    <div class="card" data-rarity="rare"><div class="card-image"><span class="rarity-badge">RARE</span><span class="variant-badge">✦</span><div class="card-icon">?</div><div class="exist-badge"><span>--</span> Exist</div></div><div class="card-info"><div class="card-name"><span class="placeholder"></span></div><div class="card-stats"><div class="stat-row"><span class="stat-label">Gems</span><span class="stat-value"><span class="placeholder"></span></span></div><div class="stat-row"><span class="stat-label">Demand</span><span class="stat-value"><span class="demand placeholder-demand"></span></span></div><div class="stat-row"><span class="stat-label">Trend</span><span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span></div></div></div></div>
-    <div class="card" data-rarity="rare"><div class="card-image"><span class="rarity-badge">RARE</span><div class="card-icon">?</div><div class="exist-badge"><span>--</span> Exist</div></div><div class="card-info"><div class="card-name"><span class="placeholder"></span></div><div class="card-stats"><div class="stat-row"><span class="stat-label">Gems</span><span class="stat-value"><span class="placeholder"></span></span></div><div class="stat-row"><span class="stat-label">Demand</span><span class="stat-value"><span class="demand placeholder-demand"></span></span></div><div class="stat-row"><span class="stat-label">Trend</span><span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span></div></div></div></div>
-  </div>
-</section>
-
-<!-- UNCOMMON -->
-<section class="grid-section" id="uncommon">
-  <div class="rarity-divider uncommon-divider">
-    <span class="rarity-divider-text uncommon-text">UNCOMMON</span>
-    <div class="rarity-divider-line uncommon-line"></div>
-  </div>
-  <div class="grid" data-rarity-group="uncommon">
-    <div class="card" data-rarity="uncommon"><div class="card-image"><span class="rarity-badge">UNCOMMON</span><div class="card-icon">?</div><div class="exist-badge"><span>--</span> Exist</div></div><div class="card-info"><div class="card-name"><span class="placeholder"></span></div><div class="card-stats"><div class="stat-row"><span class="stat-label">Gems</span><span class="stat-value"><span class="placeholder"></span></span></div><div class="stat-row"><span class="stat-label">Demand</span><span class="stat-value"><span class="demand placeholder-demand"></span></span></div><div class="stat-row"><span class="stat-label">Trend</span><span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span></div></div></div></div>
-  </div>
-</section>
-
-<!-- COMMON -->
-<section class="grid-section" id="common">
-  <div class="rarity-divider common-divider">
-    <span class="rarity-divider-text common-text">COMMON</span>
-    <div class="rarity-divider-line common-line"></div>
-  </div>
-  <div class="grid" data-rarity-group="common">
-    <div class="card" data-rarity="common"><div class="card-image"><span class="rarity-badge">COMMON</span><div class="card-icon">?</div><div class="exist-badge"><span>--</span> Exist</div></div><div class="card-info"><div class="card-name"><span class="placeholder"></span></div><div class="card-stats"><div class="stat-row"><span class="stat-label">Gems</span><span class="stat-value"><span class="placeholder"></span></span></div><div class="stat-row"><span class="stat-label">Demand</span><span class="stat-value"><span class="demand placeholder-demand"></span></span></div><div class="stat-row"><span class="stat-label">Trend</span><span class="stat-value"><span class="trend-arrow placeholder-trend">--</span></span></div></div></div></div>
-  </div>
-</section>
-
-<!-- BOTTOM AD -->
-<div class="ad-zone">
-  <div class="ad-placeholder">[ AD UNIT — 728×90 ]</div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-  <span>© 2026 ZENITH VALUES | ALL RIGHTS RESERVED</span>
-  <div class="footer-links">
-    <a href="#">Discord</a>
-    <a href="#">GitHub</a>
-    <a href="#">Contact</a>
-  </div>
-</footer>
-
-<script src="script.js"></script>
 </body>
 </html>
